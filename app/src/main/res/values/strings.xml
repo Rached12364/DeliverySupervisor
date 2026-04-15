@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">𝐃𝐞𝐥𝐢𝐯𝐓𝐫𝐚𝐜𝐤</string>
+    <string name="choose_profile">𝓓𝓮𝓵𝓲𝓿𝓣𝓻𝓪𝓬𝓴</string>
+    <string name="controller">Contrôleur</string>
+    <string name="controller_desc">Supervision &amp; tableau de bord</string>
+    <string name="deliveryman">Livreur</string>
+    <string name="deliveryman_desc">Mes livraisons du jour</string>
+    <string name="login_controller">Connexion — Contrôleur</string>
+    <string name="login_deliveryman">Connexion — Livreur</string>
+    <string name="access_supervision">Accès supervision livraisons</string>
+    <string name="access_deliveries">Accès mes livraisons</string>
+    <string name="username">Identifiant</string>
+    <string name="password">Mot de passe</string>
+    <string name="forgot_password">Mot de passe oublié ?</string>
+    <string name="login">Se connecter</string>
+    <string name="switch_profile">Changer de profil</string>
+    <string name="title_activity_deliveryman_dashboard">Tableau de bord livreur</string>
+</resources>

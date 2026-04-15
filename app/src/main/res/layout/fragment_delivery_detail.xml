@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- fragment_delivery_detail.xml -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/beige_light">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- Back + Title -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="20dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_back_detail"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="← Retour"
+                android:textColor="@color/beige_button"
+                app:strokeColor="@color/beige_button"
+                android:textSize="13sp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp" />
+
+            <TextView
+                android:id="@+id/tv_detail_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:text="Commande #—"
+                android:textColor="@color/beige_text_primary"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- État badge -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:id="@+id/tv_detail_etat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="—"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="8dp" />
+        </LinearLayout>
+
+        <!-- Livraison info card -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            app:cardCornerRadius="16dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardElevation="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="INFORMATIONS LIVRAISON"
+                    android:textColor="@color/beige_button"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.1"
+                    android:layout_marginBottom="10dp" />
+
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="6dp">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Date" android:textColor="@color/beige_text_secondary" android:textSize="14sp" />
+                    <TextView android:id="@+id/tv_detail_date" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textColor="@color/beige_text_primary" android:textSize="14sp" android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="6dp">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Mode de paiement" android:textColor="@color/beige_text_secondary" android:textSize="14sp" />
+                    <TextView android:id="@+id/tv_detail_modepay" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textColor="@color/beige_text_primary" android:textSize="14sp" android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Montant total" android:textColor="@color/beige_text_secondary" android:textSize="14sp" />
+                    <TextView android:id="@+id/tv_detail_montant" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0.00 TND" android:textColor="@color/beige_button" android:textSize="16sp" android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Livreur card -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            app:cardCornerRadius="16dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardElevation="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="LIVREUR" android:textColor="@color/beige_button" android:textSize="11sp" android:textStyle="bold" android:letterSpacing="0.1" android:layout_marginBottom="10dp" />
+
+                <TextView android:id="@+id/tv_detail_livreur" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textColor="@color/beige_text_primary" android:textSize="16sp" android:textStyle="bold" android:layout_marginBottom="4dp" />
+                <TextView android:id="@+id/tv_detail_tel_livreur" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textColor="@color/beige_text_secondary" android:textSize="14sp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Client card -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            app:cardCornerRadius="16dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardElevation="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="CLIENT" android:textColor="@color/beige_button" android:textSize="11sp" android:textStyle="bold" android:letterSpacing="0.1" android:layout_marginBottom="10dp" />
+
+                <TextView android:id="@+id/tv_detail_client" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textColor="@color/beige_text_primary" android:textSize="16sp" android:textStyle="bold" android:layout_marginBottom="4dp" />
+                <TextView android:id="@+id/tv_detail_adresse" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textColor="@color/beige_text_secondary" android:textSize="14sp" android:layout_marginBottom="4dp" />
+                <TextView android:id="@+id/tv_detail_tel_client" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textColor="@color/beige_text_secondary" android:textSize="14sp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Order lines -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="16dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardElevation="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="ARTICLES COMMANDÉS" android:textColor="@color/beige_button" android:textSize="11sp" android:textStyle="bold" android:letterSpacing="0.1" android:layout_marginBottom="10dp" />
+
+                <LinearLayout
+                    android:id="@+id/container_lignes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+</ScrollView>

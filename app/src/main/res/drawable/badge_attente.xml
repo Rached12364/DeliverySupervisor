@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- badge_attente.xml - beige badge for "en attente" -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="#F5F0EB" />
+    <corners android:radius="20dp" />
+    <stroke android:width="1dp" android:color="#D7C5B0" />
+</shape>

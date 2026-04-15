@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/beige_light"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <!-- En-tête avec image 3D et titre -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginBottom="32dp">
+
+            <!-- Conteneur pour l'effet 3D -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="140dp"
+                android:layout_height="140dp"
+                app:cardCornerRadius="70dp"
+                app:cardElevation="12dp"
+                app:cardBackgroundColor="@android:color/transparent"
+                app:cardPreventCornerOverlap="true"
+                android:layout_marginBottom="20dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/pg1"
+                    android:scaleType="centerCrop"
+                    app:shapeAppearanceOverlay="@style/CircleImageView"
+                    app:strokeColor="@color/beige_button"
+                    app:strokeWidth="3dp" />
+            </androidx.cardview.widget.CardView>
+
+            <!-- Titre de l'application avec ombre 3D -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="𝓓𝓮𝓵𝓲𝓿𝓣𝓻𝓪𝓬𝓴"
+                android:textColor="@color/beige_text_primary"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:letterSpacing="0.1"
+                android:lineSpacingExtra="4dp"
+                android:shadowColor="#40000000"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="4" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Choisissez votre profil"
+                android:textColor="@color/beige_text_secondary"
+                android:textSize="14sp"
+                android:layout_marginTop="8dp" />
+
+            <View
+                android:layout_width="60dp"
+                android:layout_height="3dp"
+                android:background="@color/beige_button"
+                android:layout_marginTop="16dp" />
+        </LinearLayout>
+
+        <!-- Les deux boutons côte à côte avec effet 3D -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp">
+
+            <!-- Carte Contrôleur (gauche) avec effet 3D -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_controller"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                app:cardCornerRadius="24dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardElevation="12dp"
+                app:cardPreventCornerOverlap="true"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:stateListAnimator="@anim/button_elevation">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp"
+                    android:gravity="center">
+
+                    <!-- Icône Contrôleur avec ombre -->
+                    <LinearLayout
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:background="@drawable/circle_background_3d"
+                        android:gravity="center"
+                        android:layout_marginBottom="12dp"
+                        android:stateListAnimator="@anim/button_elevation">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="👤"
+                            android:textSize="36sp"
+                            android:shadowColor="#40000000"
+                            android:shadowDx="1"
+                            android:shadowDy="1"
+                            android:shadowRadius="2" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Contrôleur"
+                        android:textColor="@color/beige_text_primary"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="8dp"
+                        android:shadowColor="#20000000"
+                        android:shadowDx="1"
+                        android:shadowDy="1"
+                        android:shadowRadius="1" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Gérer les livraisons"
+                        android:textColor="@color/beige_text_secondary"
+                        android:textSize="11sp"
+                        android:gravity="center"
+                        android:layout_marginBottom="12dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Accéder →"
+                        android:textColor="@color/beige_button"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Carte Livreur (droite) avec effet 3D -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_deliveryman"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                app:cardCornerRadius="24dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardElevation="12dp"
+                app:cardPreventCornerOverlap="true"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:stateListAnimator="@anim/button_elevation">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp"
+                    android:gravity="center">
+
+                    <!-- Icône Livreur avec ombre -->
+                    <LinearLayout
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:background="@drawable/circle_background_3d"
+                        android:gravity="center"
+                        android:layout_marginBottom="12dp"
+                        android:stateListAnimator="@anim/button_elevation">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="🚚"
+                            android:textSize="36sp"
+                            android:shadowColor="#40000000"
+                            android:shadowDx="1"
+                            android:shadowDy="1"
+                            android:shadowRadius="2" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Livreur"
+                        android:textColor="@color/beige_text_primary"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="8dp"
+                        android:shadowColor="#20000000"
+                        android:shadowDx="1"
+                        android:shadowDy="1"
+                        android:shadowRadius="1" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Gérer mes livraisons"
+                        android:textColor="@color/beige_text_secondary"
+                        android:textSize="11sp"
+                        android:gravity="center"
+                        android:layout_marginBottom="12dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Accéder →"
+                        android:textColor="@color/beige_button"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+
+        <!-- Footer avec version -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Version 1.0"
+            android:textColor="@color/beige_text_secondary"
+            android:textSize="11sp"
+            android:gravity="center"
+            android:layout_marginTop="32dp"
+            android:alpha="0.6" />
+
+    </LinearLayout>
+</ScrollView>

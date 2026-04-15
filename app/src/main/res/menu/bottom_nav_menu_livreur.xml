@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- res/menu/bottom_nav_menu_livreur.xml -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_mes_livraisons"
+        android:icon="@drawable/ic_delivery"
+        android:title="Mes Livraisons" />
+
+    <item
+        android:id="@+id/nav_urgence"
+        android:icon="@drawable/ic_message"
+        android:title="Urgence" />
+
+
+
+    <item
+        android:id="@+id/nav_profile"
+        android:icon="@drawable/ic_profile"
+        android:title="Profil" />
+</menu>
