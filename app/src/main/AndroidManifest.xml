@@ -28,21 +28,11 @@
             </intent-filter>
         </activity>
 
-        <!-- Activité principale (écran de choix du profil) -->
+        <!-- LOGIN UNIQUE (remplace les deux anciennes activités de login) -->
         <activity
-            android:name=".MainActivity"
+            android:name=".LoginActivity"
             android:exported="false"
-            android:theme="@style/Theme.APPLICATIONMOBILESUPERVISIONDESLIVRAISONS" />
-
-        <!-- Connexion contrôleur -->
-        <activity
-            android:name=".ActivityLoginController"
-            android:exported="false" />
-
-        <!-- Connexion livreur -->
-        <activity
-            android:name=".ActivityLoginLivreur"
-            android:exported="false" />
+            android:windowSoftInputMode="adjustResize" />
 
         <!-- Dashboard contrôleur (héberge tous les fragments) -->
         <activity
@@ -53,7 +43,6 @@
         <activity
             android:name=".DeliverymanDashboardActivity"
             android:label="@string/title_activity_deliveryman_dashboard"
-            android:parentActivityName=".ActivityLoginLivreur"
             android:exported="false" />
 
         <!-- Profil Contrôleur -->
@@ -62,6 +51,14 @@
             android:exported="false"
             android:parentActivityName=".ControllerDashboardActivity"
             android:theme="@style/Theme.APPLICATIONMOBILESUPERVISIONDESLIVRAISONS" />
+
+        <!-- Profil Livreur (si tu en as un) -->
+        <!--
+        <activity
+            android:name=".ProfileLivreurActivity"
+            android:exported="false"
+            android:parentActivityName=".DeliverymanDashboardActivity" />
+        -->
 
     </application>
 

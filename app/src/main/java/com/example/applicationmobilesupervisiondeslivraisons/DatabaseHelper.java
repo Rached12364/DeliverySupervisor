@@ -546,4 +546,54 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 DbContract.Personnel.COLUMN_IDPERS + "=?",
                 new String[]{String.valueOf(idpers)}) > 0;
     }
+
+
+    // ==================== Authentification améliorée ====================
+
+    /**
+     * Vérifie les identifiants et retourne le type d'utilisateur
+     * @return "controleur", "livreur" ou null si échec
+     */
+    public String authenticateAndGetRole(String login, String password) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(
+                "SELECT p.idpers, p.nompers, p.prenompers, po.libelle " +
+                        "FROM Personnel p " +
+                        "INNER JOIN Postes po ON p.codeposte = po.codeposte " +
+                        "WHERE p.Login = ? AND p.motP = ?",
+                new String[]{login, password}
+        );
+
+        String role = null;
+        if (cursor.moveToFirst()) {
+            String posteLibelle = cursor.getString(3);
+            if (posteLibelle.equalsIgnoreCase("Contrôleur")) {
+                role = "controleur";
+            } else if (posteLibelle.equalsIgnoreCase("Livreur")) {
+                role = "livreur";
+            }
+        }
+        cursor.close();
+        db.close();
+        return role;
+    }
+
+    /**
+     * Récupère l'ID du personnel à partir du login
+     */
+    public int getPersonnelId(String login) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(DbContract.Personnel.TABLE_NAME,
+                new String[]{DbContract.Personnel.COLUMN_IDPERS},
+                DbContract.Personnel.COLUMN_LOGIN + "=?",
+                new String[]{login}, null, null, null);
+
+        int id = -1;
+        if (cursor.moveToFirst()) {
+            id = cursor.getInt(0);
+        }
+        cursor.close();
+        db.close();
+        return id;
+    }
 }

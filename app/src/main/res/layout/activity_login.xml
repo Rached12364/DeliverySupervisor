@@ -10,81 +10,55 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:padding="24dp"
+        android:gravity="center">
 
-        <!-- Bouton retour avec flèche - taille réduite -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="  Changer de profil"
-            android:textColor="@color/white"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            app:backgroundTint="@color/beige_button_dark"
-            app:cornerRadius="8dp"
-            android:insetTop="0dp"
-            android:insetBottom="0dp"
-            android:paddingVertical="6dp"
-            android:paddingHorizontal="12dp"
-            app:icon="@drawable/ic_arrow_back"
-            app:iconGravity="textStart"
-            app:iconPadding="6dp"
-            app:iconSize="14dp"
-            app:iconTint="@color/white"
-            app:elevation="1dp" />
-
-        <!-- En-tête avec icône et titre -->
+        <!-- En-tête avec logo et titre -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="32dp">
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="48dp">
 
-            <!-- Icône Livreur avec effet 3D -->
             <androidx.cardview.widget.CardView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                app:cardCornerRadius="50dp"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                app:cardCornerRadius="60dp"
                 app:cardElevation="12dp"
-                app:cardBackgroundColor="@color/white"
-                android:layout_marginBottom="16dp">
+                app:cardBackgroundColor="@android:color/transparent"
+                android:layout_marginBottom="20dp">
 
-                <LinearLayout
+                <com.google.android.material.imageview.ShapeableImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="🚚"
-                        android:textSize="48sp" />
-                </LinearLayout>
+                    android:src="@mipmap/pg1"
+                    android:scaleType="centerCrop"
+                    app:shapeAppearanceOverlay="@style/CircleImageView"
+                    app:strokeColor="@color/beige_button"
+                    app:strokeWidth="3dp" />
             </androidx.cardview.widget.CardView>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Connexion Livreur"
+                android:text="DelivTrack"
                 android:textColor="@color/beige_text_primary"
-                android:textSize="28sp"
+                android:textSize="32sp"
                 android:textStyle="bold"
                 android:shadowColor="#40000000"
                 android:shadowDx="2"
                 android:shadowDy="2"
-                android:shadowRadius="4"
-                android:layout_marginBottom="8dp" />
+                android:shadowRadius="4" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Accédez à vos livraisons"
+                android:text="Supervision des livraisons"
                 android:textColor="@color/beige_text_secondary"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:layout_marginTop="8dp" />
 
             <View
                 android:layout_width="60dp"
@@ -93,7 +67,7 @@
                 android:layout_marginTop="16dp" />
         </LinearLayout>
 
-        <!-- Champ Nom d'utilisateur - CORRIGÉ -->
+        <!-- Champ Nom d'utilisateur -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -104,10 +78,7 @@
             app:boxStrokeErrorColor="@color/beige_button"
             app:boxStrokeWidth="1dp"
             app:boxStrokeWidthFocused="2dp"
-            app:boxBackgroundColor="@color/white"
-            android:textColorHint="@color/beige_text_secondary"
-            app:placeholderText="Entrez votre nom d'utilisateur"
-            app:placeholderTextColor="@color/beige_text_secondary">
+            app:boxBackgroundColor="@android:color/transparent">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_username"
@@ -115,14 +86,12 @@
                 android:layout_height="wrap_content"
                 android:hint="Nom d'utilisateur"
                 android:textColor="@color/beige_text_primary"
-                android:textColorHint="@color/beige_text_secondary"
                 android:textSize="16sp"
-                android:paddingVertical="12dp"
                 android:inputType="text"
-                android:importantForAutofill="no" />
+                android:background="@android:color/transparent" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Champ Mot de passe - CORRIGÉ -->
+        <!-- Champ Mot de passe -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -135,10 +104,7 @@
             app:boxStrokeErrorColor="@color/beige_button"
             app:boxStrokeWidth="1dp"
             app:boxStrokeWidthFocused="2dp"
-            app:boxBackgroundColor="@color/white"
-            android:textColorHint="@color/beige_text_secondary"
-            app:placeholderText="Entrez votre mot de passe"
-            app:placeholderTextColor="@color/beige_text_secondary">
+            app:boxBackgroundColor="@android:color/transparent">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_password"
@@ -147,9 +113,8 @@
                 android:hint="Mot de passe"
                 android:inputType="textPassword"
                 android:textColor="@color/beige_text_primary"
-                android:textColorHint="@color/beige_text_secondary"
                 android:textSize="16sp"
-                android:paddingVertical="12dp" />
+                android:background="@android:color/transparent" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Mot de passe oublié -->
@@ -159,13 +124,12 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginBottom="32dp"
-            android:text="@string/forgot_password"
+            android:text="Mot de passe oublié ?"
             android:textColor="@color/beige_button"
             android:textSize="12sp"
             android:textStyle="bold"
             android:clickable="true"
             android:focusable="true"
-            android:foreground="?android:attr/selectableItemBackground"
             android:padding="8dp" />
 
         <!-- Bouton Connexion -->
@@ -173,21 +137,15 @@
             android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:text="@string/login"
+            android:text="SE CONNECTER"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
             app:backgroundTint="@color/beige_button"
             app:cornerRadius="16dp"
-            app:icon="@drawable/ic_login"
-            app:iconGravity="textStart"
-            app:iconPadding="8dp"
-            android:stateListAnimator="@null"
-            android:clickable="true"
-            android:focusable="true"
             app:elevation="4dp" />
 
-        <!-- Footer avec version -->
+        <!-- Version -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -195,7 +153,7 @@
             android:textColor="@color/beige_text_secondary"
             android:textSize="11sp"
             android:gravity="center"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="48dp"
             android:alpha="0.6" />
 
     </LinearLayout>

@@ -1,7 +1,6 @@
 package com.example.applicationmobilesupervisiondeslivraisons;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.card.MaterialCardView;
 
@@ -18,7 +18,7 @@ public class HomeFragment extends Fragment {
 
     private DatabaseHelper dbHelper;
     private String controllerName = "Contrôleur";
-    private int controllerId = -1; // Stocker l'ID du contrôleur
+    private int controllerId = -1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -26,7 +26,7 @@ public class HomeFragment extends Fragment {
 
         dbHelper = new DatabaseHelper(requireContext());
 
-        // Récupérer les informations du contrôleur
+        // Récupérer les informations du contrôleur depuis les arguments
         if (getArguments() != null) {
             controllerName = getArguments().getString("controller_name", "Contrôleur");
             controllerId = getArguments().getInt("controller_id", -1);
@@ -38,17 +38,22 @@ public class HomeFragment extends Fragment {
             tvGreeting.setText("Bonjour, " + controllerName);
         }
 
-        // Ajouter le clic sur le cercle du profil
+        // CORRECTION : Ouvrir le fragment profil dans le même Dashboard
         MaterialCardView profileCircle = view.findViewById(R.id.profile_circle);
         if (profileCircle != null) {
-            profileCircle.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Ouvrir la page de profil contrôleur
-                    Intent intent = new Intent(getActivity(), ProfileControllerActivity.class);
-                    intent.putExtra("controller_id", controllerId);
-                    intent.putExtra("controller_name", controllerName);
-                    startActivity(intent);
+            profileCircle.setOnClickListener(v -> {
+                // Naviguer vers le fragment profil au lieu d'ouvrir une nouvelle activité
+                if (getActivity() != null && getActivity() instanceof ControllerDashboardActivity) {
+                    ProfileFragment profileFragment = new ProfileFragment();
+                    Bundle args = new Bundle();
+                    args.putInt("controller_id", controllerId);
+                    args.putString("controller_name", controllerName);
+                    profileFragment.setArguments(args);
+
+                    FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                    transaction.replace(R.id.fragment_container, profileFragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
                 }
             });
         }
@@ -96,13 +101,10 @@ public class HomeFragment extends Fragment {
             cursor.close();
         }
 
-        // Mise à jour des statistiques principales
         if (tvTotal != null) tvTotal.setText(String.valueOf(total));
         if (tvLivrees != null) tvLivrees.setText(String.valueOf(livrees));
         if (tvEchecs != null) tvEchecs.setText(String.valueOf(echecs));
         if (tvEnCours != null) tvEnCours.setText(String.valueOf(enCours));
-
-        // Mise à jour de la section Analytics
         if (tvAnalyticsTotal != null) tvAnalyticsTotal.setText(String.valueOf(total));
 
         if (tvSuccessRate != null) {
