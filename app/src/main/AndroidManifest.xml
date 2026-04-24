@@ -2,9 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Permissions pour accéder à la galerie -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -15,9 +15,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:requestLegacyExternalStorage="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/Theme.APPLICATIONMOBILESUPERVISIONDESLIVRAISONS">
 
-        <!-- SPLASH ACTIVITY (écran de chargement style Netflix) -->
         <activity
             android:name=".SplashActivityNetflix"
             android:exported="true"
@@ -27,39 +27,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <!-- LOGIN UNIQUE (remplace les deux anciennes activités de login) -->
         <activity
             android:name=".LoginActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
-
-        <!-- Dashboard contrôleur (héberge tous les fragments) -->
         <activity
             android:name=".ControllerDashboardActivity"
             android:exported="false" />
-
-        <!-- Dashboard livreur -->
         <activity
             android:name=".DeliverymanDashboardActivity"
             android:label="@string/title_activity_deliveryman_dashboard"
             android:exported="false" />
-
-        <!-- Profil Contrôleur -->
         <activity
             android:name=".ProfileControllerActivity"
             android:exported="false"
             android:parentActivityName=".ControllerDashboardActivity"
             android:theme="@style/Theme.APPLICATIONMOBILESUPERVISIONDESLIVRAISONS" />
-
-        <!-- Profil Livreur (si tu en as un) -->
-        <!--
-        <activity
-            android:name=".ProfileLivreurActivity"
-            android:exported="false"
-            android:parentActivityName=".DeliverymanDashboardActivity" />
-        -->
-
     </application>
-
 </manifest>

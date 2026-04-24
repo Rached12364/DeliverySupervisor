@@ -8,15 +8,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
-
 import androidx.fragment.app.Fragment;
-
+import com.example.applicationmobilesupervisiondeslivraisons.api.ApiClient;
+import com.example.applicationmobilesupervisiondeslivraisons.model.LivraisonCom;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LivraisonsFragment extends Fragment {
 
@@ -37,36 +40,49 @@ public class LivraisonsFragment extends Fragment {
         tvEndDate = view.findViewById(R.id.tv_end_date);
         chipGroupEtat = view.findViewById(R.id.chip_group_etat);
 
-        // Date pickers
         view.findViewById(R.id.btn_start_date).setOnClickListener(v -> showDatePicker(true));
         view.findViewById(R.id.btn_end_date).setOnClickListener(v -> showDatePicker(false));
-
-        // Filter button
         view.findViewById(R.id.btn_filter).setOnClickListener(v -> applyFilters());
-
-        // Reset button
         view.findViewById(R.id.btn_reset).setOnClickListener(v -> {
-            selectedStartDate = null;
-            selectedEndDate = null;
-            selectedEtat = null;
-            tvStartDate.setText("Date début");
-            tvEndDate.setText("Date fin");
+            selectedStartDate = null; selectedEndDate = null; selectedEtat = null;
+            tvStartDate.setText("Date début"); tvEndDate.setText("Date fin");
             chipGroupEtat.clearCheck();
-            loadAllDeliveries();
+            loadFromApi();
         });
 
-        // Chip selection
         chipGroupEtat.setOnCheckedStateChangeListener((group, checkedIds) -> {
-            if (checkedIds.isEmpty()) {
-                selectedEtat = null;
-            } else {
+            if (checkedIds.isEmpty()) selectedEtat = null;
+            else {
                 Chip chip = group.findViewById(checkedIds.get(0));
                 if (chip != null) selectedEtat = chip.getText().toString().toLowerCase();
             }
         });
 
-        loadAllDeliveries();
+        loadFromApi();
         return view;
+    }
+
+    private void loadFromApi() {
+        ApiClient.getService().getLivraisonsToday().enqueue(new Callback<List<LivraisonCom>>() {
+            @Override
+            public void onResponse(Call<List<LivraisonCom>> call, Response<List<LivraisonCom>> response) {
+                if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
+                    // Sauvegarder dans SQLite local
+                    for (LivraisonCom l : response.body()) {
+                        dbHelper.insertOrUpdateLivraison(l.getNocde(), l.getDateliv(),
+                            l.getLivreur(), l.getModepay(), l.getEtatliv(), l.getRemarque());
+                    }
+                }
+                // Afficher depuis SQLite local
+                displayDeliveries(dbHelper.getTodayDeliveries());
+            }
+
+            @Override
+            public void onFailure(Call<List<LivraisonCom>> call, Throwable t) {
+                // Hors-ligne : utiliser SQLite local
+                displayDeliveries(dbHelper.getTodayDeliveries());
+            }
+        });
     }
 
     private void showDatePicker(boolean isStart) {
@@ -74,43 +90,20 @@ public class LivraisonsFragment extends Fragment {
         new DatePickerDialog(requireContext(), (dp, year, month, day) -> {
             String date = String.format(Locale.getDefault(), "%04d-%02d-%02d", year, month + 1, day);
             String display = String.format(Locale.getDefault(), "%02d/%02d/%04d", day, month + 1, year);
-            if (isStart) {
-                selectedStartDate = date;
-                tvStartDate.setText(display);
-            } else {
-                selectedEndDate = date;
-                tvEndDate.setText(display);
-            }
+            if (isStart) { selectedStartDate = date; tvStartDate.setText(display); }
+            else { selectedEndDate = date; tvEndDate.setText(display); }
         }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)).show();
     }
 
     private void applyFilters() {
-        if (selectedStartDate != null && selectedEndDate != null) {
-            loadDeliveriesByRange(selectedStartDate, selectedEndDate);
-        } else if (selectedEtat != null) {
-            loadFilteredDeliveries();
-        } else {
-            loadAllDeliveries();
-        }
-    }
-
-    private void loadAllDeliveries() {
-        String today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new java.util.Date());
-        displayDeliveries(dbHelper.getTodayDeliveries());
-    }
-
-    private void loadDeliveriesByRange(String start, String end) {
-        displayDeliveries(dbHelper.getDeliveriesByDateRange(start, end));
-    }
-
-    private void loadFilteredDeliveries() {
-        displayDeliveries(dbHelper.getFilteredDeliveries(selectedEtat, null, null, null));
+        if (selectedStartDate != null && selectedEndDate != null) displayDeliveries(dbHelper.getDeliveriesByDateRange(selectedStartDate, selectedEndDate));
+        else if (selectedEtat != null) displayDeliveries(dbHelper.getFilteredDeliveries(selectedEtat, null, null, null));
+        else loadFromApi();
     }
 
     @SuppressLint("Range")
     private void displayDeliveries(Cursor cursor) {
         containerLivraisons.removeAllViews();
-
         if (cursor == null || cursor.getCount() == 0) {
             TextView empty = new TextView(requireContext());
             empty.setText("Aucune livraison trouvée");
@@ -135,7 +128,6 @@ public class LivraisonsFragment extends Fragment {
             try { montant = cursor.getDouble(cursor.getColumnIndex("montant")); } catch (Exception ignored) {}
 
             View card = LayoutInflater.from(requireContext()).inflate(R.layout.item_livraison_detail, containerLivraisons, false);
-
             ((TextView) card.findViewById(R.id.tv_cde_no)).setText("Commande #" + nocde);
             ((TextView) card.findViewById(R.id.tv_date)).setText("📅 " + (dateliv != null ? dateliv : "—"));
             String livreur = (prenompers != null ? prenompers : "") + " " + (nompers != null ? nompers : "");
@@ -149,7 +141,6 @@ public class LivraisonsFragment extends Fragment {
             tvEtat.setText(etat != null ? capitalize(etat) : "—");
             setEtatBackground(tvEtat, etat);
 
-            // Click for detail
             final int finalNocde = nocde;
             card.setOnClickListener(v -> {
                 DeliveryDetailFragment detail = new DeliveryDetailFragment();
@@ -158,10 +149,8 @@ public class LivraisonsFragment extends Fragment {
                 detail.setArguments(args);
                 requireActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container, detail)
-                        .addToBackStack(null)
-                        .commit();
+                        .addToBackStack(null).commit();
             });
-
             containerLivraisons.addView(card);
         }
         cursor.close();
