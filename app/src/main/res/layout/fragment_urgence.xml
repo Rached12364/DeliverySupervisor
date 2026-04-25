@@ -12,7 +12,7 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- SECTION 1 : MESSAGES REÇUS DU CONTRÔLEUR -->
+        <!-- SECTION 1 : MESSAGES RECUS DU CONTROLEUR -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -27,14 +27,28 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="📢 Messages du contrôleur"
-                    android:textColor="#1B5E20"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="8dp"/>
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="6dp">
+
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@drawable/ic_message"
+                        android:tint="#1B5E20"
+                        android:layout_marginEnd="8dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Messages du contr&#244;leur"
+                        android:textColor="#1B5E20"
+                        android:textSize="17sp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -67,61 +81,92 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="🚨 Message d'Urgence"
-                    android:textColor="#D32F2F"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="8dp"/>
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="6dp">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_urgence"
+                        android:tint="#D32F2F"
+                        android:layout_marginEnd="8dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Message d'Urgence"
+                        android:textColor="#D32F2F"
+                        android:textSize="20sp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Envoyer une alerte immédiate au contrôleur"
+                    android:text="Envoyer une alerte imm&#233;diate au contr&#244;leur"
                     android:textColor="#E57373"
                     android:textSize="12sp"
                     android:layout_marginBottom="16dp"/>
 
-                <!-- Sélection commande -->
+                <!-- Selection commande -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Commande concernée *"
+                    android:text="Commande concern&#233;e *"
                     android:textColor="@color/beige_text_primary"
                     android:textStyle="bold"
                     android:textSize="14sp"
                     android:layout_marginBottom="8dp"/>
 
+                <!-- Spinner fond blanc visible -->
                 <Spinner
                     android:id="@+id/spinner_commande_urgence"
                     android:layout_width="match_parent"
                     android:layout_height="52dp"
                     android:background="@drawable/spinner_bg_custom"
-                    android:padding="12dp"
-                    android:textSize="15sp"
-                    android:textColor="@color/input_text"
-                    android:layout_marginBottom="12dp"/>
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:popupBackground="@color/white"
+                    android:dropDownWidth="match_parent"
+                    android:layout_marginBottom="12dp"
+                    android:theme="@style/ThemeOverlay.AppCompat.Light"/>
 
                 <!-- Infos commande / client -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:background="#F5F5F5"
+                    android:background="@color/white"
                     android:padding="12dp"
                     android:layout_marginBottom="16dp"
                     android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/ic_delivery"
+                        android:tint="@color/beige_text_secondary"
+                        android:layout_marginEnd="6dp"/>
 
                     <TextView
                         android:id="@+id/tv_nocde_info"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textColor="@color/input_text"
+                        android:textColor="@color/beige_text_primary"
                         android:textSize="14sp"
                         android:textStyle="bold"/>
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/ic_phone"
+                        android:tint="#4CAF50"
+                        android:layout_marginEnd="4dp"/>
 
                     <TextView
                         android:id="@+id/tv_tel_client_urgence"
@@ -132,7 +177,7 @@
                         android:textStyle="bold"/>
                 </LinearLayout>
 
-                <!-- Raisons prédéfinies -->
+                <!-- Raisons predefinies -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -146,51 +191,53 @@
                     android:id="@+id/chip_group_raison"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:padding="12dp"
-                    android:layout_marginBottom="16dp"/>
+                    android:layout_marginBottom="16dp"
+                    app:chipSpacingVertical="8dp"
+                    app:chipSpacingHorizontal="8dp"
+                    app:singleLine="false"/>
 
-                <!-- Message libre - CORRECTION : utiliser TextInputLayout avec TextInputEditText -->
+                <!-- Message complementaire -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Message complémentaire (optionnel)"
+                    android:text="Message compl&#233;mentaire (optionnel)"
                     android:textColor="@color/beige_text_primary"
                     android:textStyle="bold"
                     android:textSize="14sp"
                     android:layout_marginBottom="8dp"/>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/textInputLayoutMessage"
+                <EditText
+                    android:id="@+id/edit_message_libre"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:hint="Écrivez votre message..."
-                    app:boxStrokeColor="@color/beige_button"
-                    app:hintTextColor="@color/beige_text_secondary"
-                    android:layout_marginBottom="16dp">
+                    android:minHeight="100dp"
+                    android:gravity="top|start"
+                    android:hint="&#201;crivez votre message..."
+                    android:textColor="#1C1008"
+                    android:textColorHint="#9A8070"
+                    android:textSize="14sp"
+                    android:background="@drawable/spinner_bg_custom"
+                    android:padding="12dp"
+                    android:inputType="textMultiLine"
+                    android:lines="3"
+                    android:maxLines="5"
+                    android:layout_marginBottom="16dp"/>
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edit_message_libre"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:minLines="3"
-                        android:maxLines="5"
-                        android:inputType="textMultiLine"
-                        android:textSize="14sp"
-                        android:textColor="@color/input_text"/>
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <!-- Bouton envoyer -->
-                <Button
+                <!-- Bouton envoyer avec icone send -->
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_envoyer_urgence"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
-                    android:text="📤 ENVOYER L'URGENCE"
-                    android:backgroundTint="#D32F2F"
+                    android:text="ENVOYER L'URGENCE"
+                    app:backgroundTint="#D32F2F"
                     android:textColor="@color/white"
                     android:textStyle="bold"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp"
+                    app:cornerRadius="10dp"
+                    app:icon="@drawable/ic_send"
+                    app:iconGravity="textStart"
+                    app:iconTint="@color/white"
+                    app:iconSize="20dp"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -208,14 +255,28 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="📜 Historique des urgences"
-                    android:textColor="@color/beige_text_primary"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="12dp"/>
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="12dp">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_history"
+                        android:tint="@color/beige_button"
+                        android:layout_marginEnd="8dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Historique des urgences"
+                        android:textColor="@color/beige_text_primary"
+                        android:textSize="16sp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/container_historique_urgence"

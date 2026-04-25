@@ -15,16 +15,31 @@
         android:padding="16dp"
         android:elevation="4dp">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <!-- Titre avec icône -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Liste des Livraisons"
-            android:textColor="@color/beige_text_primary"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="12dp" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="12dp">
 
-        <!-- Date filters -->
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_delivery"
+                android:tint="@color/beige_button"
+                android:layout_marginEnd="8dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Liste des Livraisons"
+                android:textColor="@color/beige_text_primary"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+        <!-- Filtres dates -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -40,8 +55,8 @@
                 android:layout_marginEnd="6dp"
                 app:strokeColor="@color/beige_button"
                 android:textColor="@color/beige_button"
-                android:text="Début"
-                android:textSize="12sp" />
+                android:text="D&#233;but"
+                android:textSize="12sp"/>
 
             <TextView
                 android:id="@+id/tv_start_date"
@@ -49,9 +64,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Date début"
+                android:text="Date d&#233;but"
                 android:textColor="@color/beige_text_secondary"
-                android:textSize="12sp" />
+                android:textSize="12sp"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_end_date"
@@ -64,7 +79,7 @@
                 app:strokeColor="@color/beige_button"
                 android:textColor="@color/beige_button"
                 android:text="Fin"
-                android:textSize="12sp" />
+                android:textSize="12sp"/>
 
             <TextView
                 android:id="@+id/tv_end_date"
@@ -74,10 +89,10 @@
                 android:gravity="center"
                 android:text="Date fin"
                 android:textColor="@color/beige_text_secondary"
-                android:textSize="12sp" />
+                android:textSize="12sp"/>
         </LinearLayout>
 
-        <!-- Etat chips -->
+        <!-- Chips état -->
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chip_group_etat"
             android:layout_width="match_parent"
@@ -91,7 +106,7 @@
                 android:text="En attente"
                 style="@style/Widget.MaterialComponents.Chip.Filter"
                 app:chipBackgroundColor="@color/chip_bg_selector"
-                android:textSize="12sp" />
+                android:textSize="12sp"/>
 
             <com.google.android.material.chip.Chip
                 android:layout_width="wrap_content"
@@ -99,26 +114,26 @@
                 android:text="En cours"
                 style="@style/Widget.MaterialComponents.Chip.Filter"
                 app:chipBackgroundColor="@color/chip_bg_selector"
-                android:textSize="12sp" />
+                android:textSize="12sp"/>
 
             <com.google.android.material.chip.Chip
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Livré"
+                android:text="Livr&#233;"
                 style="@style/Widget.MaterialComponents.Chip.Filter"
                 app:chipBackgroundColor="@color/chip_bg_selector"
-                android:textSize="12sp" />
+                android:textSize="12sp"/>
 
             <com.google.android.material.chip.Chip
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Annulé"
+                android:text="Annul&#233;"
                 style="@style/Widget.MaterialComponents.Chip.Filter"
                 app:chipBackgroundColor="@color/chip_bg_selector"
-                android:textSize="12sp" />
+                android:textSize="12sp"/>
         </com.google.android.material.chip.ChipGroup>
 
-        <!-- Action buttons -->
+        <!-- Boutons Filtrer / Réinitialiser -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -130,11 +145,13 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginEnd="6dp"
-                android:text="Filtrer"
+                android:text="FILTRER"
                 android:textColor="@color/white"
                 app:backgroundTint="@color/beige_button"
                 app:cornerRadius="8dp"
-                android:textSize="14sp" />
+                app:icon="@drawable/ic_search"
+                app:iconSize="16dp"
+                android:textSize="13sp"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_reset"
@@ -143,14 +160,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginStart="6dp"
-                android:text="Réinitialiser"
+                android:text="R&#201;INITIALISER"
                 android:textColor="@color/beige_button"
                 app:strokeColor="@color/beige_button"
-                android:textSize="14sp" />
+                android:textSize="13sp"/>
         </LinearLayout>
     </LinearLayout>
 
-    <!-- List -->
+    <!-- Liste -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -161,7 +178,7 @@
             android:id="@+id/container_livraisons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            android:orientation="vertical"/>
     </ScrollView>
 
 </LinearLayout>

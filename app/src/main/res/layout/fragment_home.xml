@@ -6,14 +6,13 @@
     android:background="@color/beige_light"
     android:fillViewport="true">
 
-    <!-- Un SEUL enfant direct dans le ScrollView -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="20dp">
 
-        <!-- Header avec image circulaire -->
+        <!-- Header -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -39,7 +38,7 @@
                         android:id="@+id/tv_greeting"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Bonjour, Contrôleur"
+                        android:text="Bonjour, Contr&#244;leur"
                         android:textColor="@color/beige_text_primary"
                         android:textSize="22sp"
                         android:textStyle="bold" />
@@ -47,7 +46,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Tableau de bord — Aujourd'hui"
+                        android:text="Tableau de bord &#8212; Aujourd&#39;hui"
                         android:textColor="@color/beige_text_secondary"
                         android:textSize="12sp" />
                 </LinearLayout>
@@ -134,7 +133,7 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Livrées -->
+            <!-- Livrees -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -171,13 +170,13 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Livrées"
+                        android:text="Livr&#233;es"
                         android:textColor="@color/beige_text_secondary"
                         android:textSize="11sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Échecs -->
+            <!-- Echecs -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -214,7 +213,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Échecs"
+                        android:text="&#201;checs"
                         android:textColor="@color/beige_text_secondary"
                         android:textSize="11sp" />
                 </LinearLayout>
@@ -326,7 +325,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Taux réussite"
+                            android:text="Taux r&#233;ussite"
                             android:textColor="@color/beige_text_secondary"
                             android:textSize="12sp" />
 
@@ -350,7 +349,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Taux échec"
+                            android:text="Taux &#233;chec"
                             android:textColor="@color/beige_text_secondary"
                             android:textSize="12sp" />
 
@@ -379,7 +378,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="LIVRAISONS RÉCENTES"
+                android:text="LIVRAISONS R&#201;CENTES"
                 android:textColor="@color/beige_text_primary"
                 android:textSize="14sp"
                 android:textStyle="bold"
@@ -388,7 +387,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Voir tout →"
+                android:text="Voir tout &#8594;"
                 android:textColor="@color/beige_button"
                 android:textSize="11sp"
                 android:textStyle="bold" />

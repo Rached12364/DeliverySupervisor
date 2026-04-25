@@ -8,79 +8,72 @@
     android:background="@color/beige_light">
 
     <!-- Header -->
-    <com.google.android.material.appbar.AppBarLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/beige_button"
-        app:elevation="0dp">
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="16dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:padding="16dp"
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp">
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Messagerie"
-                    android:textColor="@color/white"
-                    android:textSize="24sp"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Communication avec les livreurs"
-                    android:textColor="#CCFFFFFF"
-                    android:textSize="12sp"
-                    android:layout_marginTop="4dp"/>
-            </LinearLayout>
-
-            <!-- Badge messages non lus -->
-            <com.google.android.material.card.MaterialCardView
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="20dp"
-                app:cardBackgroundColor="#33FFFFFF"
-                app:cardElevation="0dp">
+                android:text="Messagerie"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                android:textStyle="bold"/>
 
-                <LinearLayout
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Communication avec les livreurs"
+                android:textColor="#CCFFFFFF"
+                android:textSize="12sp"
+                android:layout_marginTop="4dp"/>
+        </LinearLayout>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="20dp"
+            app:cardBackgroundColor="#33FFFFFF"
+            app:cardElevation="0dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="6dp">
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:src="@drawable/ic_message"
+                    android:tint="@color/white"/>
+
+                <TextView
+                    android:id="@+id/tv_msg_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:paddingHorizontal="12dp"
-                    android:paddingVertical="6dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="💬"
-                        android:textSize="14sp"/>
-
-                    <TextView
-                        android:id="@+id/tv_msg_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0 msg"
-                        android:textColor="@color/white"
-                        android:textSize="13sp"
-                        android:textStyle="bold"
-                        android:layout_marginStart="4dp"/>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-        </LinearLayout>
-    </com.google.android.material.appbar.AppBarLayout>
+                    android:text="0 msg"
+                    android:textColor="@color/white"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:layout_marginStart="6dp"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
 
     <!-- Zone envoi message -->
     <androidx.cardview.widget.CardView
@@ -106,15 +99,16 @@
                 android:textStyle="bold"
                 android:layout_marginBottom="12dp"/>
 
-            <!-- Spinner livreur -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Destinataire *"
                 android:textColor="@color/beige_text_primary"
                 android:textSize="13sp"
-                android:layout_marginBottom="8dp"/>
+                android:textStyle="bold"
+                android:layout_marginBottom="6dp"/>
 
+            <!-- Spinner avec thème clair forcé -->
             <Spinner
                 android:id="@+id/spinner_livreur"
                 android:layout_width="match_parent"
@@ -122,17 +116,20 @@
                 android:background="@drawable/spinner_bg_custom"
                 android:padding="12dp"
                 android:textSize="15sp"
-                android:textColor="@color/input_text"
-                android:layout_marginBottom="16dp"/>
+                android:textColor="#1C1008"
+                android:popupBackground="@color/white"
+                android:dropDownWidth="match_parent"
+                android:layout_marginBottom="16dp"
+                android:theme="@style/ThemeOverlay.AppCompat.Light"/>
 
-            <!-- Message - CORRECTION : utiliser TextInputLayout avec TextInputEditText -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Message *"
                 android:textColor="@color/beige_text_primary"
                 android:textSize="13sp"
-                android:layout_marginBottom="8dp"/>
+                android:textStyle="bold"
+                android:layout_marginBottom="6dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -146,9 +143,10 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:hint="Écrivez votre message..."
+                    android:hint="&#201;crivez votre message..."
                     app:boxStrokeColor="@color/beige_button"
                     app:hintTextColor="@color/beige_text_secondary"
+                    app:boxBackgroundColor="@color/white"
                     app:boxCornerRadiusTopStart="12dp"
                     app:boxCornerRadiusBottomStart="12dp"
                     app:boxCornerRadiusTopEnd="0dp"
@@ -163,18 +161,24 @@
                         android:gravity="top"
                         android:inputType="textMultiLine"
                         android:textSize="14sp"
-                        android:textColor="@color/input_text"/>
+                        android:textColor="#1C1008"
+                        android:textColorHint="#6B5040"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_send"
                     android:layout_width="56dp"
                     android:layout_height="56dp"
-                    android:text="📤"
-                    android:textSize="20sp"
-                    android:backgroundTint="@color/beige_button"
                     android:layout_marginStart="8dp"
-                    app:cornerRadius="12dp"/>
+                    app:backgroundTint="@color/beige_button"
+                    app:cornerRadius="12dp"
+                    app:icon="@drawable/ic_send"
+                    app:iconGravity="textStart"
+                    app:iconPadding="0dp"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text=""
+                    app:iconSize="24dp"/>
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -185,8 +189,9 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp">
+        android:layout_marginBottom="8dp"
+        android:background="@color/white"
+        android:elevation="2dp">
 
         <LinearLayout
             android:id="@+id/tab_recus_layout"
@@ -202,7 +207,7 @@
                 android:id="@+id/tv_tab_recus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="🚨 REÇUS"
+                android:text="RE&#199;US"
                 android:textColor="@color/beige_button"
                 android:textSize="14sp"
                 android:textStyle="bold"/>
@@ -229,11 +234,11 @@
                 android:id="@+id/tv_tab_envoyes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="📤 ENVOYÉS"
+                android:text="ENVOY&#201;S"
                 android:textColor="@color/beige_button"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                android:alpha="0.6"/>
+                android:alpha="0.5"/>
 
             <View
                 android:id="@+id/view_tab_envoyes"

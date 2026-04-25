@@ -9,59 +9,77 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="24dp">
+        android:orientation="vertical">
 
-        <!-- En-tête avec photo de profil -->
+        <!-- HEADER BANNER -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="220dp"
             android:orientation="vertical"
             android:gravity="center"
-            android:layout_marginBottom="32dp">
+            android:background="@color/beige_button"
+            android:padding="24dp">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/profile_image"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/ic_default_profile"
-                app:civ_border_width="2dp"
-                app:civ_border_color="@color/beige_button"
-                android:layout_marginBottom="16dp" />
+            <!-- Avatar avec bordure blanche -->
+            <FrameLayout
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:layout_marginBottom="12dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profile_image"
+                    android:layout_width="96dp"
+                    android:layout_height="96dp"
+                    android:src="@drawable/ic_default_profile"
+                    app:civ_border_width="3dp"
+                    app:civ_border_color="#FFFFFF" />
+
+                <!-- Badge caméra -->
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="bottom|end"
+                    app:backgroundTint="#FFFFFF"
+                    app:tint="@color/beige_button"
+                    app:srcCompat="@drawable/ic_calendar"
+                    app:maxImageSize="14dp"
+                    app:elevation="4dp" />
+            </FrameLayout>
 
             <TextView
                 android:id="@+id/tv_profile_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Nom Utilisateur"
-                android:textColor="#1A1208"
+                android:textColor="#FFFFFF"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:letterSpacing="0.03" />
 
             <TextView
                 android:id="@+id/tv_profile_role"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="R&#244;le"
-                android:textColor="@color/beige_button"
-                android:textSize="14sp"
-                android:layout_marginTop="4dp" />
+                android:textColor="#FFE8C8"
+                android:textSize="13sp"
+                android:layout_marginTop="4dp"
+                android:letterSpacing="0.05" />
 
-            <View
-                android:layout_width="60dp"
-                android:layout_height="2dp"
-                android:background="@color/beige_button"
-                android:layout_marginTop="16dp" />
         </LinearLayout>
 
-        <!-- Formulaire d'informations -->
+
+
+        <!-- SECTION : Informations personnelles -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="4dp"
-            app:cardBackgroundColor="@color/white"
-            android:layout_marginBottom="24dp">
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="3dp"
+            app:cardBackgroundColor="#FFFFFF">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -69,15 +87,32 @@
                 android:orientation="vertical"
                 android:padding="20dp">
 
+                <!-- Titre section -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Informations personnelles"
+                    android:textColor="#1A1208"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="16dp" />
+
                 <!-- Nom -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginBottom="12dp"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    app:hintTextColor="#3E2F1C"
+                    app:hintTextColor="@color/beige_button"
                     app:boxStrokeColor="@color/beige_button"
-                    app:boxBackgroundColor="@color/white">
+                    app:boxStrokeWidth="1.5dp"
+                    app:boxCornerRadiusTopStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusBottomEnd="12dp"
+                    app:startIconDrawable="@drawable/ic_person"
+                    app:startIconTint="@color/beige_button"
+                    app:boxBackgroundColor="#FAFAFA">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edit_nom"
@@ -85,19 +120,28 @@
                         android:layout_height="wrap_content"
                         android:hint="Nom"
                         android:textColor="#1A1208"
-                        android:textColorHint="#7A6A5A"
-                        android:textSize="16sp" />
+                        android:textColorHint="#9A8A7A"
+                        android:textSize="15sp"
+                        android:paddingTop="14dp"
+                        android:paddingBottom="14dp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- Prénom -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginBottom="12dp"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    app:hintTextColor="#3E2F1C"
+                    app:hintTextColor="@color/beige_button"
                     app:boxStrokeColor="@color/beige_button"
-                    app:boxBackgroundColor="@color/white">
+                    app:boxStrokeWidth="1.5dp"
+                    app:boxCornerRadiusTopStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusBottomEnd="12dp"
+                    app:startIconDrawable="@drawable/ic_person"
+                    app:startIconTint="@color/beige_button"
+                    app:boxBackgroundColor="#FAFAFA">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edit_prenom"
@@ -105,19 +149,28 @@
                         android:layout_height="wrap_content"
                         android:hint="Pr&#233;nom"
                         android:textColor="#1A1208"
-                        android:textColorHint="#7A6A5A"
-                        android:textSize="16sp" />
+                        android:textColorHint="#9A8A7A"
+                        android:textSize="15sp"
+                        android:paddingTop="14dp"
+                        android:paddingBottom="14dp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- Email -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginBottom="12dp"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    app:hintTextColor="#3E2F1C"
+                    app:hintTextColor="@color/beige_button"
                     app:boxStrokeColor="@color/beige_button"
-                    app:boxBackgroundColor="@color/white">
+                    app:boxStrokeWidth="1.5dp"
+                    app:boxCornerRadiusTopStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusBottomEnd="12dp"
+                    app:startIconDrawable="@drawable/ic_calendar"
+                    app:startIconTint="@color/beige_button"
+                    app:boxBackgroundColor="#FAFAFA">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edit_email"
@@ -126,8 +179,10 @@
                         android:hint="Email"
                         android:inputType="textEmailAddress"
                         android:textColor="#1A1208"
-                        android:textColorHint="#7A6A5A"
-                        android:textSize="16sp" />
+                        android:textColorHint="#9A8A7A"
+                        android:textSize="15sp"
+                        android:paddingTop="14dp"
+                        android:paddingBottom="14dp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- Téléphone -->
@@ -135,9 +190,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    app:hintTextColor="#3E2F1C"
+                    app:hintTextColor="@color/beige_button"
                     app:boxStrokeColor="@color/beige_button"
-                    app:boxBackgroundColor="@color/white">
+                    app:boxStrokeWidth="1.5dp"
+                    app:boxCornerRadiusTopStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusBottomEnd="12dp"
+                    app:startIconDrawable="@drawable/ic_phone"
+                    app:startIconTint="@color/beige_button"
+                    app:boxBackgroundColor="#FAFAFA">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edit_phone"
@@ -146,37 +208,54 @@
                         android:hint="T&#233;l&#233;phone"
                         android:inputType="phone"
                         android:textColor="#1A1208"
-                        android:textColorHint="#7A6A5A"
-                        android:textSize="16sp" />
+                        android:textColorHint="#9A8A7A"
+                        android:textSize="15sp"
+                        android:paddingTop="14dp"
+                        android:paddingBottom="14dp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Bouton Mettre à jour -->
+        <!-- BOUTON Mettre à jour -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_update_profile"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:text="Mettre &#224; jour"
-            android:textColor="@color/white"
-            android:textSize="16sp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="Mettre &#224; jour le profil"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
             android:textStyle="bold"
+            android:letterSpacing="0.03"
             app:backgroundTint="@color/beige_button"
             app:cornerRadius="16dp"
-            android:layout_marginBottom="16dp" />
+            app:icon="@drawable/ic_person"
+            app:iconTint="#FFFFFF"
+            app:iconGravity="textStart"
+            app:iconPadding="8dp" />
 
-        <!-- Bouton Déconnexion -->
+        <!-- BOUTON Déconnexion -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_logout"
             android:layout_width="match_parent"
             android:layout_height="56dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="24dp"
             android:text="Se d&#233;connecter"
-            android:textColor="@color/white"
-            android:textSize="16sp"
+            android:textColor="@color/beige_button"
+            android:textSize="15sp"
             android:textStyle="bold"
-            app:backgroundTint="#A0845A"
-            app:cornerRadius="16dp" />
+            app:backgroundTint="#FFFFFF"
+            app:strokeColor="@color/beige_button"
+            app:strokeWidth="1.5dp"
+            app:cornerRadius="16dp"
+            app:icon="@drawable/ic_map"
+            app:iconTint="@color/beige_button"
+            app:iconGravity="textStart"
+            app:iconPadding="8dp" />
 
     </LinearLayout>
 </ScrollView>

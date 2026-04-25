@@ -17,256 +17,367 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginBottom="16dp">
+            android:layout_marginBottom="12dp">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_back_detail"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="← Retour"
+                android:text="&#8592; Retour"
                 android:textColor="@color/beige_button"
                 app:strokeColor="@color/beige_button"
-                android:textSize="13sp"
-                android:insetTop="0dp"
-                android:insetBottom="0dp" />
+                android:layout_marginEnd="12dp" />
 
             <TextView
                 android:id="@+id/tv_detail_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="end"
-                android:text="Commande #—"
+                android:text="Espace Livreur"
                 android:textColor="@color/beige_text_primary"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <!-- Badge état actuel -->
+        <!-- Boutons Appeler + Maps -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:orientation="horizontal"
             android:layout_marginBottom="16dp">
-            <TextView
-                android:id="@+id/tv_detail_etat"
-                android:layout_width="wrap_content"
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_appel_client"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="—"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:paddingHorizontal="20dp"
-                android:paddingVertical="8dp" />
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:text="Appeler"
+                android:textColor="@color/white"
+                app:backgroundTint="@color/beige_button"
+                app:icon="@drawable/ic_phone"
+                app:iconTint="@color/white" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_google_maps"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:text="Maps"
+                android:textColor="@color/beige_button"
+                app:strokeColor="@color/beige_button"
+                app:icon="@drawable/ic_map"
+                app:iconTint="@color/beige_button" />
         </LinearLayout>
 
-        <!-- Card : Infos livraison -->
+        <!-- Infos commande : etat + date + modepay + montant -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            app:cardCornerRadius="16dp"
+            app:cardCornerRadius="12dp"
             app:cardBackgroundColor="@color/white"
-            app:cardElevation="2dp">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:text="INFORMATIONS LIVRAISON"
-                    android:textColor="@color/beige_button" android:textSize="11sp"
-                    android:textStyle="bold" android:layout_marginBottom="10dp" />
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                    android:orientation="horizontal" android:layout_marginBottom="6dp">
-                    <TextView android:layout_width="0dp" android:layout_height="wrap_content"
-                        android:layout_weight="1" android:text="Date"
-                        android:textColor="@color/beige_text_secondary" android:textSize="14sp" />
-                    <TextView android:id="@+id/tv_detail_date" android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" android:text="—"
-                        android:textColor="@color/beige_text_primary" android:textSize="14sp" android:textStyle="bold" />
-                </LinearLayout>
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                    android:orientation="horizontal" android:layout_marginBottom="6dp">
-                    <TextView android:layout_width="0dp" android:layout_height="wrap_content"
-                        android:layout_weight="1" android:text="Mode de paiement"
-                        android:textColor="@color/beige_text_secondary" android:textSize="14sp" />
-                    <TextView android:id="@+id/tv_detail_modepay" android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" android:text="—"
-                        android:textColor="@color/beige_text_primary" android:textSize="14sp" android:textStyle="bold" />
-                </LinearLayout>
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <TextView android:layout_width="0dp" android:layout_height="wrap_content"
-                        android:layout_weight="1" android:text="Montant total"
-                        android:textColor="@color/beige_text_secondary" android:textSize="14sp" />
-                    <TextView android:id="@+id/tv_detail_montant" android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" android:text="0.00 TND"
-                        android:textColor="@color/beige_button" android:textSize="16sp" android:textStyle="bold" />
-                </LinearLayout>
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+            app:cardElevation="2dp"
+            android:layout_marginBottom="16dp">
 
-        <!-- Card : Client + Actions contact -->
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            app:cardCornerRadius="16dp"
-            app:cardBackgroundColor="@color/white"
-            app:cardElevation="2dp">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="16dp">
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:text="CLIENT" android:textColor="@color/beige_button"
-                    android:textSize="11sp" android:textStyle="bold" android:layout_marginBottom="10dp" />
-                <TextView android:id="@+id/tv_detail_client" android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:text="—"
-                    android:textColor="@color/beige_text_primary" android:textSize="16sp"
-                    android:textStyle="bold" android:layout_marginBottom="4dp" />
-                <TextView android:id="@+id/tv_detail_adresse" android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:text="—"
-                    android:textColor="@color/beige_text_secondary" android:textSize="14sp"
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="10dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="COMMANDE"
+                        android:textColor="@color/beige_text_secondary"
+                        android:textSize="11sp"
+                        android:textStyle="bold"
+                        android:letterSpacing="0.1" />
+
+                    <TextView
+                        android:id="@+id/tv_detail_etat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="--"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="4dp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_detail_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textColor="@color/beige_text_secondary"
+                    android:textSize="13sp"
                     android:layout_marginBottom="4dp" />
-                <TextView android:id="@+id/tv_detail_tel_client" android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:text="—"
-                    android:textColor="@color/beige_text_secondary" android:textSize="14sp"
-                    android:layout_marginBottom="12dp" />
 
-                <!-- Boutons contact -->
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="horizontal">
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_appel_client"
+
+                    <TextView
+                        android:id="@+id/tv_detail_modepay"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:layout_marginEnd="8dp"
-                        android:text="📞 Appeler"
-                        android:textSize="13sp"
-                        app:backgroundTint="@color/beige_button"
-                        app:cornerRadius="8dp" />
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_google_maps"
-                        android:layout_width="0dp"
+                        android:text="--"
+                        android:textColor="@color/beige_text_secondary"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/tv_detail_montant"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="🗺 Maps"
-                        android:textSize="13sp"
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:text="0.00 TND"
                         android:textColor="@color/beige_button"
-                        app:strokeColor="@color/beige_button"
-                        app:cornerRadius="8dp" />
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Card : Articles commandés -->
+        <!-- Infos client -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            app:cardCornerRadius="16dp"
+            app:cardCornerRadius="12dp"
             app:cardBackgroundColor="@color/white"
-            app:cardElevation="2dp">
+            app:cardElevation="2dp"
+            android:layout_marginBottom="16dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="16dp">
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:text="ARTICLES COMMANDÉS" android:textColor="@color/beige_button"
-                    android:textSize="11sp" android:textStyle="bold" android:layout_marginBottom="10dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="INFORMATIONS CLIENT"
+                    android:textColor="@color/beige_text_secondary"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.1"
+                    android:layout_marginBottom="10dp" />
+
+                <TextView
+                    android:id="@+id/tv_detail_client"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textColor="@color/beige_text_primary"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="4dp" />
+
+                <TextView
+                    android:id="@+id/tv_detail_adresse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textColor="@color/beige_text_secondary"
+                    android:textSize="14sp"
+                    android:layout_marginBottom="4dp" />
+
+                <TextView
+                    android:id="@+id/tv_detail_tel_client"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textColor="@color/beige_button"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Articles commandes -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="12dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardElevation="2dp"
+            android:layout_marginBottom="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ARTICLES COMMAND&#201;S"
+                    android:textColor="@color/beige_text_secondary"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.1"
+                    android:layout_marginBottom="10dp" />
+
                 <LinearLayout
                     android:id="@+id/container_lignes"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#F0EAE0"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Total"
+                        android:textColor="@color/beige_text_primary"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_total_montant"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0.00 TND"
+                        android:textColor="@color/beige_button"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Card : Modifier la livraison -->
+        <!-- Modifier la livraison -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            app:cardCornerRadius="16dp"
+            app:cardCornerRadius="12dp"
             app:cardBackgroundColor="@color/white"
-            app:cardElevation="2dp">
+            app:cardElevation="2dp"
+            android:layout_marginBottom="16dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:text="MODIFIER LA LIVRAISON" android:textColor="@color/beige_button"
-                    android:textSize="11sp" android:textStyle="bold" android:layout_marginBottom="12dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="MODIFIER LA LIVRAISON"
+                    android:textColor="@color/beige_text_secondary"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.1"
+                    android:layout_marginBottom="14dp" />
 
-                <!-- Spinner état -->
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:text="État de la livraison"
-                    android:textColor="@color/beige_text_secondary" android:textSize="13sp"
-                    android:layout_marginBottom="4dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="&#201;tat de la livraison"
+                    android:textColor="@color/beige_text_primary"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="6dp" />
+
                 <Spinner
                     android:id="@+id/spinner_etat_livraison"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="12dp"
-                    android:background="@drawable/badge_attente"
-                    android:padding="8dp" />
+                    android:layout_height="52dp"
+                    android:background="@drawable/spinner_bg_custom"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:popupBackground="@color/white"
+                    android:dropDownWidth="match_parent"
+                    android:layout_marginBottom="16dp"
+                    android:theme="@style/ThemeOverlay.AppCompat.Light" />
 
-                <!-- Remarque -->
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:text="Remarque (obligatoire si problème / annulé)"
-                    android:textColor="@color/beige_text_secondary" android:textSize="13sp"
-                    android:layout_marginBottom="4dp" />
-                <com.google.android.material.textfield.TextInputLayout
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Remarque (optionnel)"
+                    android:textColor="@color/beige_text_primary"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="6dp" />
+
+                <EditText
+                    android:id="@+id/edit_remarque"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    app:hintTextColor="@color/beige_text_secondary"
-                    app:boxStrokeColor="@color/beige_button">
-                    <EditText
-                        android:id="@+id/edit_remarque"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Ex: client absent, adresse incorrecte..."
-                        android:minLines="2"
-                        android:gravity="top"
-                        android:textColor="@color/beige_text_primary"
-                        android:textColorHint="@color/beige_text_secondary"
-                        android:textSize="14sp" />
-                </com.google.android.material.textfield.TextInputLayout>
+                    android:minHeight="100dp"
+                    android:gravity="top|start"
+                    android:hint="Saisir une remarque..."
+                    android:textColor="#1C1008"
+                    android:textColorHint="#9A8070"
+                    android:textSize="14sp"
+                    android:background="@drawable/spinner_bg_custom"
+                    android:padding="12dp"
+                    android:inputType="textMultiLine"
+                    android:lines="4"
+                    android:maxLines="6"
+                    android:layout_marginBottom="16dp" />
 
-                <!-- Bouton sauvegarder -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_sauvegarder"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="✓ Sauvegarder"
+                    android:layout_height="52dp"
+                    android:text="Mettre &#224; jour"
                     android:textColor="@color/white"
                     android:textSize="15sp"
+                    android:textStyle="bold"
                     app:backgroundTint="@color/beige_button"
-                    app:cornerRadius="8dp" />
+                    app:cornerRadius="10dp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
         <!-- Bouton Urgence -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_urgence"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:text="⚠️ Signaler un problème au contrôleur"
+            android:layout_height="52dp"
+            android:text="Signaler une urgence"
+            android:textColor="@color/beige_button"
+            app:strokeColor="@color/beige_button"
+            app:cornerRadius="10dp"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Bouton Signaler probleme -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_signaler"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="&#9888; Signaler un probl&#232;me au contr&#244;leur"
             android:textColor="@color/white"
             android:textSize="14sp"
-            app:backgroundTint="#C62828"
-            app:cornerRadius="8dp" />
+            android:textStyle="bold"
+            app:backgroundTint="#D32F2F"
+            app:cornerRadius="12dp"
+            android:layout_marginBottom="24dp" />
 
     </LinearLayout>
 </ScrollView>
