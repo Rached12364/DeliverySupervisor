@@ -1,80 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- ==================== THÈME PRINCIPAL ==================== -->
     <style name="Base.Theme.APPLICATIONMOBILESUPERVISIONDESLIVRAISONS" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/beige_button</item>
-        <item name="colorPrimaryVariant">@color/beige_text_secondary</item>
+        <item name="colorPrimary">#B8935A</item>
+        <item name="colorPrimaryVariant">#8B6A35</item>
         <item name="colorOnPrimary">@color/white</item>
-        <item name="colorSecondary">@color/beige_button</item>
-        <item name="colorSecondaryVariant">@color/beige_text_secondary</item>
+        <item name="colorSecondary">#B8935A</item>
+        <item name="colorSecondaryVariant">#8B6A35</item>
         <item name="colorOnSecondary">@color/white</item>
-        <item name="android:statusBarColor">@color/beige_button</item>
-        <item name="android:windowBackground">@color/beige_light</item>
-        <item name="android:textColor">@color/beige_text_primary</item>
-
-        <!-- Amélioration de la lisibilité globale -->
+        <item name="android:statusBarColor">#B8935A</item>
+        <item name="android:windowBackground">#FAF6F1</item>
+        <item name="android:textColor">#1C1008</item>
+        <item name="android:textColorHint">#6B5040</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textSize">14sp</item>
     </style>
 
     <style name="Theme.APPLICATIONMOBILESUPERVISIONDESLIVRAISONS" parent="Base.Theme.APPLICATIONMOBILESUPERVISIONDESLIVRAISONS" />
 
-    <!-- ==================== SPLASH SCREEN THEME ==================== -->
     <style name="Theme.SplashNetflix" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="android:windowBackground">@color/beige_button</item>
-        <item name="android:statusBarColor">@color/beige_button</item>
-        <item name="android:navigationBarColor">@color/beige_button</item>
+        <item name="android:windowBackground">#B8935A</item>
+        <item name="android:statusBarColor">#B8935A</item>
+        <item name="android:navigationBarColor">#B8935A</item>
         <item name="android:windowAnimationStyle">@null</item>
         <item name="android:windowDisablePreview">true</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
-    <!-- ==================== STYLES POUR LES INPUTS (FOND BLANC) ==================== -->
-
-    <!-- Style pour TextInputLayout avec fond blanc -->
     <style name="CustomTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="boxStrokeColor">@color/input_stroke</item>
+        <item name="boxStrokeColor">#B8935A</item>
         <item name="boxStrokeWidth">1.5dp</item>
-        <item name="hintTextColor">@color/input_hint</item>
-        <item name="android:textColorHint">@color/input_hint</item>
-        <item name="boxBackgroundColor">@color/input_background</item>
+        <item name="hintTextColor">#3D2B10</item>
+        <item name="android:textColorHint">#6B5040</item>
+        <item name="boxBackgroundColor">#FFFFFF</item>
         <item name="boxBackgroundMode">outline</item>
     </style>
 
-    <!-- Style pour TextInputEditText -->
     <style name="CustomTextInputEditText">
         <item name="android:textSize">15sp</item>
-        <item name="android:textColor">@color/input_text</item>
+        <item name="android:textColor">#1C1008</item>
         <item name="android:minHeight">48dp</item>
         <item name="android:background">@drawable/edittext_background</item>
         <item name="android:padding">12dp</item>
     </style>
 
-    <!-- Style pour les Spinners avec fond blanc et texte foncé -->
     <style name="CustomSpinner">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">52dp</item>
         <item name="android:background">@drawable/spinner_bg_custom</item>
         <item name="android:textSize">15sp</item>
-        <item name="android:textColor">@color/input_text</item>
+        <item name="android:textColor">#1C1008</item>
         <item name="android:padding">12dp</item>
         <item name="android:dropDownWidth">match_parent</item>
         <item name="android:popupBackground">@color/white</item>
     </style>
 
-    <!-- Style pour les boutons -->
     <style name="CustomButton" parent="Widget.MaterialComponents.Button">
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:padding">12dp</item>
         <item name="cornerRadius">8dp</item>
-        <item name="backgroundTint">@color/beige_button</item>
+        <item name="backgroundTint">#B8935A</item>
     </style>
 
-    <!-- Style pour les Cartes -->
     <style name="CustomCardView" parent="Widget.MaterialComponents.CardView">
         <item name="cardCornerRadius">12dp</item>
         <item name="cardElevation">4dp</item>
@@ -82,32 +72,27 @@
         <item name="contentPadding">16dp</item>
     </style>
 
-    <!-- Style pour les TextView Titres -->
     <style name="TitleText">
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/beige_button</item>
+        <item name="android:textColor">#B8935A</item>
         <item name="android:layout_marginBottom">12dp</item>
     </style>
 
-    <!-- Style pour les TextView Sous-titres -->
     <style name="SubtitleText">
         <item name="android:textSize">14sp</item>
-        <item name="android:textStyle">normal</item>
-        <item name="android:textColor">@color/beige_text_secondary</item>
+        <item name="android:textColor">#3D2B10</item>
         <item name="android:layout_marginBottom">8dp</item>
     </style>
 
-    <!-- Style pour les labels de formulaire -->
     <style name="FormLabel">
         <item name="android:textSize">13sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/beige_text_primary</item>
+        <item name="android:textColor">#1C1008</item>
         <item name="android:layout_marginBottom">4dp</item>
         <item name="android:layout_marginTop">8dp</item>
     </style>
 
-    <!-- Style pour CircleImageView -->
     <style name="CircleImageView">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/beige_light"
+    android:background="#F5F0EB"
     android:fillViewport="true">
 
     <LinearLayout
@@ -20,7 +20,7 @@
             android:orientation="vertical"
             android:gravity="center"
             android:layout_marginTop="40dp"
-            android:layout_marginBottom="48dp">
+            android:layout_marginBottom="40dp">
 
             <androidx.cardview.widget.CardView
                 android:layout_width="120dp"
@@ -44,19 +44,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="DelivTrack"
-                android:textColor="@color/beige_text_primary"
+                android:textColor="#1A1208"
                 android:textSize="32sp"
-                android:textStyle="bold"
-                android:shadowColor="#40000000"
-                android:shadowDx="2"
-                android:shadowDy="2"
-                android:shadowRadius="4" />
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Supervision des livraisons"
-                android:textColor="@color/beige_text_secondary"
+                android:textColor="#3E2F1C"
                 android:textSize="14sp"
                 android:layout_marginTop="8dp" />
 
@@ -67,55 +63,83 @@
                 android:layout_marginTop="16dp" />
         </LinearLayout>
 
-        <!-- Champ Nom d'utilisateur -->
-        <com.google.android.material.textfield.TextInputLayout
+        <!-- Label + Champ Nom d'utilisateur -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            app:hintTextColor="@color/beige_button"
-            app:boxStrokeColor="@color/beige_button"
-            app:boxStrokeErrorColor="@color/beige_button"
-            app:boxStrokeWidth="1dp"
-            app:boxStrokeWidthFocused="2dp"
-            app:boxBackgroundColor="@android:color/transparent">
+            android:orientation="vertical"
+            android:layout_marginBottom="16dp">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edit_username"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nom d'utilisateur"
+                android:textColor="#3E2F1C"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="6dp" />
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Nom d'utilisateur"
-                android:textColor="@color/beige_text_primary"
-                android:textSize="16sp"
-                android:inputType="text"
-                android:background="@android:color/transparent" />
-        </com.google.android.material.textfield.TextInputLayout>
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:hintEnabled="false"
+                app:boxStrokeColor="@color/beige_button"
+                app:boxStrokeWidth="1dp"
+                app:boxStrokeWidthFocused="2dp"
+                app:boxBackgroundColor="#FFFFFF">
 
-        <!-- Champ Mot de passe -->
-        <com.google.android.material.textfield.TextInputLayout
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Entrez votre identifiant"
+                    android:textColor="#1A1208"
+                    android:textColorHint="#7A6A5A"
+                    android:textSize="15sp"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <!-- Label + Champ Mot de passe -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            app:passwordToggleEnabled="true"
-            app:passwordToggleTint="@color/beige_button"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            app:hintTextColor="@color/beige_button"
-            app:boxStrokeColor="@color/beige_button"
-            app:boxStrokeErrorColor="@color/beige_button"
-            app:boxStrokeWidth="1dp"
-            app:boxStrokeWidthFocused="2dp"
-            app:boxBackgroundColor="@android:color/transparent">
+            android:orientation="vertical"
+            android:layout_marginBottom="8dp">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edit_password"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mot de passe"
+                android:textColor="#3E2F1C"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="6dp" />
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Mot de passe"
-                android:inputType="textPassword"
-                android:textColor="@color/beige_text_primary"
-                android:textSize="16sp"
-                android:background="@android:color/transparent" />
-        </com.google.android.material.textfield.TextInputLayout>
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@color/beige_button"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:hintEnabled="false"
+                app:boxStrokeColor="@color/beige_button"
+                app:boxStrokeWidth="1dp"
+                app:boxStrokeWidthFocused="2dp"
+                app:boxBackgroundColor="#FFFFFF">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Entrez votre mot de passe"
+                    android:inputType="textPassword"
+                    android:textColor="#1A1208"
+                    android:textColorHint="#7A6A5A"
+                    android:textSize="15sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
 
         <!-- Mot de passe oublié -->
         <TextView
@@ -124,7 +148,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginBottom="32dp"
-            android:text="Mot de passe oublié ?"
+            android:text="Mot de passe oubli&#233; ?"
             android:textColor="@color/beige_button"
             android:textSize="12sp"
             android:textStyle="bold"
@@ -150,11 +174,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Version 1.0"
-            android:textColor="@color/beige_text_secondary"
+            android:textColor="#3E2F1C"
             android:textSize="11sp"
             android:gravity="center"
-            android:layout_marginTop="48dp"
-            android:alpha="0.6" />
+            android:layout_marginTop="48dp" />
 
     </LinearLayout>
 </ScrollView>

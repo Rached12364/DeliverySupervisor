@@ -13,7 +13,6 @@ import com.example.applicationmobilesupervisiondeslivraisons.api.ApiClient;
 import com.example.applicationmobilesupervisiondeslivraisons.model.LivraisonCom;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -45,7 +44,7 @@ public class LivraisonsFragment extends Fragment {
         view.findViewById(R.id.btn_filter).setOnClickListener(v -> applyFilters());
         view.findViewById(R.id.btn_reset).setOnClickListener(v -> {
             selectedStartDate = null; selectedEndDate = null; selectedEtat = null;
-            tvStartDate.setText("Date début"); tvEndDate.setText("Date fin");
+            tvStartDate.setText("Date d\u00e9but"); tvEndDate.setText("Date fin");
             chipGroupEtat.clearCheck();
             loadFromApi();
         });
@@ -66,26 +65,31 @@ public class LivraisonsFragment extends Fragment {
         ApiClient.getService().getLivraisonsToday().enqueue(new Callback<List<LivraisonCom>>() {
             @Override
             public void onResponse(Call<List<LivraisonCom>> call, Response<List<LivraisonCom>> response) {
+                if (!isAdded() || getActivity() == null) return;
                 if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
-                    // Sauvegarder dans SQLite local
                     for (LivraisonCom l : response.body()) {
                         dbHelper.insertOrUpdateLivraison(l.getNocde(), l.getDateliv(),
-                            l.getLivreur(), l.getModepay(), l.getEtatliv(), l.getRemarque());
+                            l.getLivreur(), l.getModepay(), l.getEtatliv(),
+                            l.getRemarque() != null ? l.getRemarque() : "");
                     }
                 }
-                // Afficher depuis SQLite local
-                displayDeliveries(dbHelper.getTodayDeliveries());
+                getActivity().runOnUiThread(() -> {
+                    if (isAdded()) displayDeliveries(dbHelper.getTodayDeliveries());
+                });
             }
 
             @Override
             public void onFailure(Call<List<LivraisonCom>> call, Throwable t) {
-                // Hors-ligne : utiliser SQLite local
-                displayDeliveries(dbHelper.getTodayDeliveries());
+                if (!isAdded() || getActivity() == null) return;
+                getActivity().runOnUiThread(() -> {
+                    if (isAdded()) displayDeliveries(dbHelper.getTodayDeliveries());
+                });
             }
         });
     }
 
     private void showDatePicker(boolean isStart) {
+        if (!isAdded()) return;
         Calendar cal = Calendar.getInstance();
         new DatePickerDialog(requireContext(), (dp, year, month, day) -> {
             String date = String.format(Locale.getDefault(), "%04d-%02d-%02d", year, month + 1, day);
@@ -96,18 +100,22 @@ public class LivraisonsFragment extends Fragment {
     }
 
     private void applyFilters() {
-        if (selectedStartDate != null && selectedEndDate != null) displayDeliveries(dbHelper.getDeliveriesByDateRange(selectedStartDate, selectedEndDate));
-        else if (selectedEtat != null) displayDeliveries(dbHelper.getFilteredDeliveries(selectedEtat, null, null, null));
+        if (selectedStartDate != null && selectedEndDate != null)
+            displayDeliveries(dbHelper.getDeliveriesByDateRange(selectedStartDate, selectedEndDate));
+        else if (selectedEtat != null)
+            displayDeliveries(dbHelper.getFilteredDeliveries(selectedEtat, null, null, null));
         else loadFromApi();
     }
 
     @SuppressLint("Range")
     private void displayDeliveries(Cursor cursor) {
+        if (!isAdded() || getActivity() == null) return;
         containerLivraisons.removeAllViews();
+
         if (cursor == null || cursor.getCount() == 0) {
             TextView empty = new TextView(requireContext());
-            empty.setText("Aucune livraison trouvée");
-            empty.setTextColor(0xFF9E8B7A);
+            empty.setText("Aucune livraison trouv\u00e9e");
+            empty.setTextColor(0xFF6B5040);
             empty.setPadding(16, 32, 16, 8);
             empty.setGravity(android.view.Gravity.CENTER);
             containerLivraisons.addView(empty);
@@ -127,22 +135,26 @@ public class LivraisonsFragment extends Fragment {
             double montant = 0;
             try { montant = cursor.getDouble(cursor.getColumnIndex("montant")); } catch (Exception ignored) {}
 
-            View card = LayoutInflater.from(requireContext()).inflate(R.layout.item_livraison_detail, containerLivraisons, false);
+            View card = LayoutInflater.from(requireContext())
+                    .inflate(R.layout.item_livraison_detail, containerLivraisons, false);
+
             ((TextView) card.findViewById(R.id.tv_cde_no)).setText("Commande #" + nocde);
-            ((TextView) card.findViewById(R.id.tv_date)).setText("📅 " + (dateliv != null ? dateliv : "—"));
+            ((TextView) card.findViewById(R.id.tv_date)).setText("\uD83D\uDCC5 " + (dateliv != null ? dateliv : "\u2014"));
             String livreur = (prenompers != null ? prenompers : "") + " " + (nompers != null ? nompers : "");
-            ((TextView) card.findViewById(R.id.tv_livreur)).setText("🚚 " + livreur.trim());
+            ((TextView) card.findViewById(R.id.tv_livreur)).setText("\uD83D\uDE9A " + livreur.trim());
             String client = (prenomclt != null ? prenomclt : "") + " " + (nomclt != null ? nomclt : "");
-            ((TextView) card.findViewById(R.id.tv_client)).setText("👤 " + client.trim());
-            ((TextView) card.findViewById(R.id.tv_montant)).setText(String.format(Locale.getDefault(), "%.2f TND", montant));
-            ((TextView) card.findViewById(R.id.tv_modepay)).setText(modepay != null ? modepay : "—");
+            ((TextView) card.findViewById(R.id.tv_client)).setText("\uD83D\uDC64 " + client.trim());
+            ((TextView) card.findViewById(R.id.tv_montant)).setText(
+                    String.format(Locale.getDefault(), "%.2f TND", montant));
+            ((TextView) card.findViewById(R.id.tv_modepay)).setText(modepay != null ? modepay : "\u2014");
 
             TextView tvEtat = card.findViewById(R.id.tv_etat_badge);
-            tvEtat.setText(etat != null ? capitalize(etat) : "—");
+            tvEtat.setText(etat != null ? capitalize(etat) : "\u2014");
             setEtatBackground(tvEtat, etat);
 
             final int finalNocde = nocde;
             card.setOnClickListener(v -> {
+                if (!isAdded()) return;
                 DeliveryDetailFragment detail = new DeliveryDetailFragment();
                 Bundle args = new Bundle();
                 args.putInt("nocde", finalNocde);
@@ -159,10 +171,18 @@ public class LivraisonsFragment extends Fragment {
     private void setEtatBackground(TextView tv, String etat) {
         if (etat == null) return;
         switch (etat) {
-            case "livré": tv.setBackgroundResource(R.drawable.badge_livre); tv.setTextColor(0xFF2E7D32); break;
-            case "en cours": tv.setBackgroundResource(R.drawable.badge_en_cours); tv.setTextColor(0xFFE65100); break;
-            case "annulé": case "problème": tv.setBackgroundResource(R.drawable.badge_probleme); tv.setTextColor(0xFFC62828); break;
-            default: tv.setBackgroundResource(R.drawable.badge_attente); tv.setTextColor(0xFF5D4037); break;
+            case "livr\u00e9":
+                tv.setBackgroundResource(R.drawable.badge_livre);
+                tv.setTextColor(0xFF2E7D32); break;
+            case "en cours":
+                tv.setBackgroundResource(R.drawable.badge_en_cours);
+                tv.setTextColor(0xFFE65100); break;
+            case "annul\u00e9": case "probl\u00e8me":
+                tv.setBackgroundResource(R.drawable.badge_probleme);
+                tv.setTextColor(0xFFC62828); break;
+            default:
+                tv.setBackgroundResource(R.drawable.badge_attente);
+                tv.setTextColor(0xFF5D4037); break;
         }
     }
 

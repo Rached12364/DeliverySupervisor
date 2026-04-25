@@ -20,7 +20,6 @@
             android:gravity="center"
             android:layout_marginBottom="32dp">
 
-            <!-- Photo de profil -->
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profile_image"
                 android:layout_width="100dp"
@@ -30,22 +29,20 @@
                 app:civ_border_color="@color/beige_button"
                 android:layout_marginBottom="16dp" />
 
-            <!-- Nom du profil -->
             <TextView
                 android:id="@+id/tv_profile_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Nom Utilisateur"
-                android:textColor="@color/beige_text_primary"
+                android:textColor="#1A1208"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <!-- Rôle -->
             <TextView
                 android:id="@+id/tv_profile_role"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Rôle"
+                android:text="R&#244;le"
                 android:textColor="@color/beige_button"
                 android:textSize="14sp"
                 android:layout_marginTop="4dp" />
@@ -63,6 +60,7 @@
             android:layout_height="wrap_content"
             app:cardCornerRadius="16dp"
             app:cardElevation="4dp"
+            app:cardBackgroundColor="@color/white"
             android:layout_marginBottom="24dp">
 
             <LinearLayout
@@ -77,15 +75,17 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    app:hintTextColor="@color/beige_button"
-                    app:boxStrokeColor="@color/beige_button">
+                    app:hintTextColor="#3E2F1C"
+                    app:boxStrokeColor="@color/beige_button"
+                    app:boxBackgroundColor="@color/white">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edit_nom"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Nom"
-                        android:textColor="@color/beige_text_primary"
+                        android:textColor="#1A1208"
+                        android:textColorHint="#7A6A5A"
                         android:textSize="16sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -95,15 +95,17 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    app:hintTextColor="@color/beige_button"
-                    app:boxStrokeColor="@color/beige_button">
+                    app:hintTextColor="#3E2F1C"
+                    app:boxStrokeColor="@color/beige_button"
+                    app:boxBackgroundColor="@color/white">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edit_prenom"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Prénom"
-                        android:textColor="@color/beige_text_primary"
+                        android:hint="Pr&#233;nom"
+                        android:textColor="#1A1208"
+                        android:textColorHint="#7A6A5A"
                         android:textSize="16sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -113,8 +115,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    app:hintTextColor="@color/beige_button"
-                    app:boxStrokeColor="@color/beige_button">
+                    app:hintTextColor="#3E2F1C"
+                    app:boxStrokeColor="@color/beige_button"
+                    app:boxBackgroundColor="@color/white">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edit_email"
@@ -122,7 +125,8 @@
                         android:layout_height="wrap_content"
                         android:hint="Email"
                         android:inputType="textEmailAddress"
-                        android:textColor="@color/beige_text_primary"
+                        android:textColor="#1A1208"
+                        android:textColorHint="#7A6A5A"
                         android:textSize="16sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -131,16 +135,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    app:hintTextColor="@color/beige_button"
-                    app:boxStrokeColor="@color/beige_button">
+                    app:hintTextColor="#3E2F1C"
+                    app:boxStrokeColor="@color/beige_button"
+                    app:boxBackgroundColor="@color/white">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edit_phone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Téléphone"
+                        android:hint="T&#233;l&#233;phone"
                         android:inputType="phone"
-                        android:textColor="@color/beige_text_primary"
+                        android:textColor="#1A1208"
+                        android:textColorHint="#7A6A5A"
                         android:textSize="16sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -152,7 +158,7 @@
             android:id="@+id/btn_update_profile"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:text="Mettre à jour"
+            android:text="Mettre &#224; jour"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -165,14 +171,12 @@
             android:id="@+id/btn_logout"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:text="Se déconnecter"
+            android:text="Se d&#233;connecter"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:backgroundTint="@color/beige_button_dark"
-            app:cornerRadius="16dp"
-            app:strokeColor="@color/white"
-            app:strokeWidth="0dp" />
+            app:backgroundTint="#A0845A"
+            app:cornerRadius="16dp" />
 
     </LinearLayout>
 </ScrollView>

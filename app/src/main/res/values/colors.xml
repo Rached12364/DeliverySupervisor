@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Couleurs de fond -->
-    <color name="beige_light">#F5F0EB</color>
-    <color name="beige_button">#C4A882</color>
+    <!-- Fond général -->
+    <color name="beige_light">#FAF6F1</color>
+    <color name="beige_button">#B8935A</color>
 
-    <!-- Couleurs de texte - PLUS FONCÉES pour meilleur contraste -->
-    <color name="beige_text_primary">#2C2418</color>      <!-- Très foncé, presque noir -->
-    <color name="beige_text_secondary">#5C4B38</color>    <!-- Marron foncé -->
-    <color name="beige_text_disabled">#B8AA9A</color>
+    <!-- Textes - très foncés pour bon contraste -->
+    <color name="beige_text_primary">#1C1008</color>
+    <color name="beige_text_secondary">#3D2B10</color>
+    <color name="beige_text_disabled">#A89070</color>
 
-    <!-- Couleurs pour les inputs (fond blanc) -->
+    <!-- Inputs -->
     <color name="input_background">#FFFFFF</color>
-    <color name="input_text">#2C2418</color>
-    <color name="input_hint">#9E8B7A</color>
-    <color name="input_stroke">#C4A882</color>
+    <color name="input_text">#1C1008</color>
+    <color name="input_hint">#6B5040</color>
+    <color name="input_stroke">#B8935A</color>
 
-    <!-- Couleurs de base -->
+    <!-- Base -->
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="gray_light">#F5F5F5</color>
     <color name="gray_medium">#E0E0E0</color>
 
-    <!-- Autres couleurs -->
-    <color name="card_dark">#EDEAE6</color>
-    <color name="beige_text">#D2B48C</color>
-    <color name="beige_button_light">#D4B48C</color>
-    <color name="beige_button_dark">#C4A882</color>
+    <!-- Variantes -->
+    <color name="card_dark">#FFFFFF</color>
+    <color name="beige_text">#B8935A</color>
+    <color name="beige_button_light">#D4A96A</color>
+    <color name="beige_button_dark">#8B6A35</color>
 
-    <!-- Couleurs pour les graphiques -->
+    <!-- Graphiques -->
     <color name="chart_green">#4CAF50</color>
     <color name="chart_blue">#2196F3</color>
     <color name="chart_orange">#FF9800</color>
@@ -36,6 +36,6 @@
     <color name="chart_teal">#009688</color>
 
     <!-- Gradients -->
-    <color name="gradient_start">#C4A882</color>
+    <color name="gradient_start">#B8935A</color>
     <color name="gradient_end">#E8DCCC</color>
 </resources>
