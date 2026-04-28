@@ -25,18 +25,15 @@ public class SyncManager {
         this.dbHelper = new DatabaseHelper(context);
     }
 
-    // Interface callback pour notifier la fin de sync
     public interface SyncCallback {
         void onSyncComplete();
         void onSyncError(String error);
     }
 
-    // Synchronise tout : clients + commandes + livraisons
     public void syncAll(SyncCallback callback) {
         syncClients(() -> syncCommandes(() -> syncLivraisons(callback)));
     }
 
-    // Sync clients depuis l'API
     private void syncClients(Runnable next) {
         ApiClient.getService().getAllClients().enqueue(new Callback<List<Client>>() {
             @Override
@@ -47,16 +44,14 @@ public class SyncManager {
                 }
                 next.run();
             }
-
             @Override
             public void onFailure(Call<List<Client>> call, Throwable t) {
                 Log.e(TAG, "Erreur sync clients : " + t.getMessage());
-                next.run(); // Continue même en cas d'erreur
+                next.run();
             }
         });
     }
 
-    // Sync commandes depuis l'API
     private void syncCommandes(Runnable next) {
         ApiClient.getService().getAllCommandes().enqueue(new Callback<List<Commande>>() {
             @Override
@@ -67,7 +62,6 @@ public class SyncManager {
                 }
                 next.run();
             }
-
             @Override
             public void onFailure(Call<List<Commande>> call, Throwable t) {
                 Log.e(TAG, "Erreur sync commandes : " + t.getMessage());
@@ -76,7 +70,6 @@ public class SyncManager {
         });
     }
 
-    // Sync livraisons depuis l'API
     private void syncLivraisons(SyncCallback callback) {
         ApiClient.getService().getLivraisonsToday().enqueue(new Callback<List<LivraisonCom>>() {
             @Override
@@ -89,14 +82,14 @@ public class SyncManager {
                                 lc.getLivreur(),
                                 lc.getModepay(),
                                 lc.getEtatliv(),
-                                lc.getRemarque() != null ? lc.getRemarque() : ""
+                                lc.getRemarque() != null ? lc.getRemarque() : "",
+                                lc.getMontantTotal()
                         );
                     }
                     Log.d(TAG, "Livraisons synchronisées : " + response.body().size());
                 }
                 if (callback != null) callback.onSyncComplete();
             }
-
             @Override
             public void onFailure(Call<List<LivraisonCom>> call, Throwable t) {
                 Log.e(TAG, "Erreur sync livraisons : " + t.getMessage());
@@ -105,7 +98,6 @@ public class SyncManager {
         });
     }
 
-    // Sauvegarder les clients dans SQLite
     private void saveClients(List<Client> clients) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         for (Client c : clients) {
@@ -122,7 +114,6 @@ public class SyncManager {
         }
     }
 
-    // Sauvegarder les commandes dans SQLite
     private void saveCommandes(List<Commande> commandes) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         for (Commande c : commandes) {

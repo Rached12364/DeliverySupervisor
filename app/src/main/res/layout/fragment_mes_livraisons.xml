@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- res/layout/fragment_mes_livraisons.xml -->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/beige_light">
-
     <!-- Header -->
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,29 +13,81 @@
         android:orientation="vertical"
         android:padding="16dp"
         android:background="@color/beige_button">
-
-        <TextView
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mes Livraisons"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/tv_date_today"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFE0C8"
+                    android:textSize="13sp"
+                    android:layout_marginTop="2dp" />
+            </LinearLayout>
+            <!-- Compteur 10 livraisons -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:background="#33FFFFFF"
+                android:padding="10dp">
+                <TextView
+                    android:id="@+id/tv_compteur"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0 / 10"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="livraisons"
+                    android:textColor="#FFE0C8"
+                    android:textSize="10sp" />
+            </LinearLayout>
+        </LinearLayout>
+        <!-- Info GPS -->
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Mes Livraisons"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tv_date_today"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/beige_light"
-            android:textSize="14sp"
-            android:layout_marginTop="4dp" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="8dp">
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:src="@drawable/ic_map"
+                android:tint="#FFE0C8"
+                android:layout_marginEnd="4dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Triées par distance GPS"
+                android:textColor="#FFE0C8"
+                android:textSize="11sp" />
+        </LinearLayout>
     </LinearLayout>
-
     <!-- Liste scrollable -->
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+        android:layout_height="0dp"
+        android:layout_weight="1">
         <LinearLayout
             android:id="@+id/container_livraisons"
             android:layout_width="match_parent"
@@ -44,5 +95,21 @@
             android:orientation="vertical"
             android:padding="12dp" />
     </ScrollView>
-
+    <!-- Bouton Fin de journee uniquement -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="@color/beige_light">
+        <Button
+            android:id="@+id/btn_fin_journee"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="Terminer ma journée"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:backgroundTint="#FF5722" />
+    </LinearLayout>
 </LinearLayout>

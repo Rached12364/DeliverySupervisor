@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp">
+    <TextView
+        android:id="@+id/tv_montant_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Montant à collecter (DA)"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        android:layout_marginBottom="4dp"/>
+    <EditText
+        android:id="@+id/et_montant"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:inputType="numberDecimal"
+        android:hint="0.00"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Mode de paiement"
+        android:textSize="14sp"
+        android:layout_marginBottom="8dp"/>
+    <RadioGroup
+        android:id="@+id/rg_mode_paiement"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <RadioButton
+            android:id="@+id/rb_especes"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="Especes (cash)"
+            android:textSize="15sp"
+            android:checked="true"/>
+        <RadioButton
+            android:id="@+id/rb_carte"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="Carte bancaire (TPE)"
+            android:textSize="15sp"/>
+        <RadioButton
+            android:id="@+id/rb_mobile"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="Paiement mobile (CIB / Edinar)"
+            android:textSize="15sp"/>
+    </RadioGroup>
+</LinearLayout>

@@ -55,8 +55,7 @@ public class MessagesFragment extends Fragment {
             controleurId = getArguments().getInt("controleur_id", -1);
         if (controleurId == -1)
             controleurId = requireContext()
-                    .getSharedPreferences("user_prefs", 0)
-                    .getInt("user_id", -1);
+                    .getSharedPreferences("UserSession", 0).getInt("userId", -1);
     }
 
     @Override

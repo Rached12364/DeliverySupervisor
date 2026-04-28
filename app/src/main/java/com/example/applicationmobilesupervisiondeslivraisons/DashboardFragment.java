@@ -100,7 +100,7 @@ public class DashboardFragment extends Fragment {
                 livreurTotals.put(nom, livreurTotals.getOrDefault(nom, 0) + count);
 
                 totalGlobal += count;
-                if ("livré".equalsIgnoreCase(etat)) totalLivree += count;
+                if ("livr\u00e9".equalsIgnoreCase(etat)) totalLivree += count;
                 if ("en attente".equalsIgnoreCase(etat)) totalAttente += count;
             } while (cursorLivreur.moveToNext());
             cursorLivreur.close();
@@ -176,7 +176,7 @@ public class DashboardFragment extends Fragment {
 
             // Afficher les détails par état
             Map<String, Integer> etats = entry.getValue();
-            String[] etatOrder = {"livré", "en cours", "en attente", "annulé", "problème"};
+            String[] etatOrder = {"livr\u00e9", "en cours", "en attente", "annul\u00e9", "probl\u00e8me"};
 
             for (String etat : etatOrder) {
                 if (etats.containsKey(etat)) {
@@ -218,11 +218,11 @@ public class DashboardFragment extends Fragment {
     private int getEtatColor(String etat) {
         if (etat == null) return 0xFF5D4037;
         switch (etat.toLowerCase()) {
-            case "livré": return 0xFF2E7D32;
+            case "livr\u00e9": return 0xFF2E7D32;
             case "en cours": return 0xFFE65100;
             case "en attente": return 0xFFFF9800;
-            case "annulé":
-            case "problème": return 0xFFC62828;
+            case "annul\u00e9":
+            case "probl\u00e8me": return 0xFFC62828;
             default: return 0xFF5D4037;
         }
     }
@@ -238,3 +238,4 @@ public class DashboardFragment extends Fragment {
         loadStatistics(); // Rafraîchir les données quand le fragment devient visible
     }
 }
+

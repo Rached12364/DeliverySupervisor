@@ -126,12 +126,7 @@ public class LoginActivity extends AppCompatActivity {
         editor.apply();
     }
 
-    private void checkIfAlreadyLoggedIn() {
-        SharedPreferences prefs = getSharedPreferences("UserSession", MODE_PRIVATE);
-        if (prefs.getBoolean("isLoggedIn", false)) {
-            redirectUser(prefs.getString("role", ""));
-        }
-    }
+    private void checkIfAlreadyLoggedIn() { }
 
     public static void logout(AppCompatActivity activity) {
         activity.getSharedPreferences("UserSession", MODE_PRIVATE).edit().clear().apply();

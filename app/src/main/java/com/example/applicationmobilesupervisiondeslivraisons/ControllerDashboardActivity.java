@@ -62,7 +62,7 @@ public class ControllerDashboardActivity extends AppCompatActivity {
                 else if (itemId == R.id.nav_livraisons) { loadFragment(new LivraisonsFragment()); return true; }
                 else if (itemId == R.id.nav_dashboard)  { loadFragment(new DashboardFragment());  return true; }
                 else if (itemId == R.id.nav_messages)   { loadFragment(new MessagesFragment());   return true; }
-                else if (itemId == R.id.nav_recherche)  { loadFragment(new RechercheFragment());  return true; }
+                else if (itemId == R.id.nav_rapports)   { loadFragment(new RapportsFragment());  return true; }
                 return false;
             }
         });
@@ -77,3 +77,4 @@ public class ControllerDashboardActivity extends AppCompatActivity {
                 .replace(R.id.fragment_container, fragment).commit();
     }
 }
+

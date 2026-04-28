@@ -70,7 +70,7 @@ public class LivraisonsFragment extends Fragment {
                     for (LivraisonCom l : response.body()) {
                         dbHelper.insertOrUpdateLivraison(l.getNocde(), l.getDateliv(),
                             l.getLivreur(), l.getModepay(), l.getEtatliv(),
-                            l.getRemarque() != null ? l.getRemarque() : "");
+                            l.getRemarque() != null ? l.getRemarque() : "", l.getMontantTotal());
                     }
                 }
                 getActivity().runOnUiThread(() -> {

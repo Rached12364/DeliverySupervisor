@@ -7,6 +7,7 @@ public class LivraisonCom {
     private String modepay;
     private String etatliv;
     private String remarque;
+    private double montantTotal;
 
     public int getNocde() { return nocde; }
     public String getDateliv() { return dateliv; }
@@ -14,6 +15,7 @@ public class LivraisonCom {
     public String getModepay() { return modepay; }
     public String getEtatliv() { return etatliv; }
     public String getRemarque() { return remarque; }
+    public double getMontantTotal() { return montantTotal; }
     public void setEtatliv(String e) { this.etatliv = e; }
     public void setRemarque(String r) { this.remarque = r; }
 }

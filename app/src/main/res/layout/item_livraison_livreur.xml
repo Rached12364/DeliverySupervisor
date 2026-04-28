@@ -1,104 +1,128 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- res/layout/item_livraison_livreur.xml -->
+﻿<?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="10dp"
-    app:cardCornerRadius="12dp"
+    app:cardCornerRadius="14dp"
     app:cardElevation="3dp"
-    app:cardBackgroundColor="@color/white">
-
+    app:cardBackgroundColor="@color/white"
+    android:clickable="true"
+    android:focusable="true">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="14dp"
         android:gravity="center_vertical">
-
-        <!-- Numéro d'ordre -->
         <TextView
             android:id="@+id/tv_ordre"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:gravity="center"
             android:textColor="@color/white"
             android:textStyle="bold"
             android:textSize="16sp"
             android:background="@drawable/badge_en_cours" />
-
-        <!-- Infos principales -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
             android:layout_marginStart="12dp">
-
             <TextView
                 android:id="@+id/tv_nocde"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/beige_text_secondary"
-                android:textSize="12sp" />
-
+                android:textColor="@color/beige_button"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="2dp" />
             <TextView
                 android:id="@+id/tv_client_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/beige_text_primary"
                 android:textStyle="bold"
-                android:textSize="15sp" />
-
+                android:textSize="15sp"
+                android:layout_marginBottom="4dp" />
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="4dp">
-
+                android:gravity="center_vertical"
+                android:layout_marginBottom="3dp">
+                <ImageView
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:src="@drawable/ic_phone"
+                    android:tint="@color/beige_text_secondary"
+                    android:layout_marginEnd="4dp" />
                 <TextView
                     android:id="@+id/tv_tel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/beige_text_secondary"
-                    android:textSize="13sp"
-                    android:drawablePadding="4dp" />
-
+                    android:textSize="13sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+                <ImageView
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:src="@drawable/ic_map"
+                    android:tint="@color/beige_text_secondary"
+                    android:layout_marginEnd="4dp" />
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="  •  "
-                    android:textColor="@color/beige_text_secondary" />
-
-                <TextView
-                    android:id="@+id/tv_ville"
+                    android:id="@+id/tv_adresse"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/beige_text_secondary"
-                    android:textSize="13sp" />
+                    android:textSize="12sp"
+                    android:maxLines="2" />
             </LinearLayout>
+            <!-- Montant TOTAL uniquement -->
+            <TextView
+                android:id="@+id/tv_montant_total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total: 0.00 TND"
+                android:textColor="#1565C0"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginTop="6dp"
+                android:background="#F0F0F0"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp" />
         </LinearLayout>
-
-        <!-- Badge état -->
-        <TextView
-            android:id="@+id/tv_etat_livraison"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="10dp"
-            android:paddingVertical="5dp"
-            android:textSize="11sp"
-            android:textStyle="bold"
-            android:textColor="@color/beige_text_primary" />
-
-        <!-- Flèche -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="›"
-            android:textSize="24sp"
-            android:textColor="@color/beige_button"
-            android:layout_marginStart="8dp" />
-
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginStart="8dp">
+            <TextView
+                android:id="@+id/tv_etat_livraison"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="6dp" />
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_arrow_right"
+                android:tint="@color/beige_button" />
+        </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

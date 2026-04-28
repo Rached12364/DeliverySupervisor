@@ -74,10 +74,10 @@ public class LivraisonDetailFragment extends Fragment {
         btnUrgence     = view.findViewById(R.id.btn_urgence);
         containerArticles = view.findViewById(R.id.container_articles);
 
-        // Spinner états
+        // Spinner Ã©tats
         ArrayAdapter<String> adapterEtat = new ArrayAdapter<>(requireContext(),
                 android.R.layout.simple_spinner_item,
-                new String[]{"en attente", "en cours", "livré", "annulé", "problème"});
+                new String[]{"en attente", "en cours", "livre", "annule", "probleme"});
         adapterEtat.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerEtat.setAdapter(adapterEtat);
 
@@ -108,19 +108,19 @@ public class LivraisonDetailFragment extends Fragment {
         int nbArticles   = cursor.getInt(cursor.getColumnIndexOrThrow("nb_articles"));
         cursor.close();
 
-        tvNoCde.setText("Commande N° " + noCde);
+        tvNoCde.setText("Commande N " + noCde);
         tvClientName.setText(prenomClt + " " + nomClt);
         tvTel.setText(telClient);
         tvAdresse.setText(adresseClient);
         tvVille.setText(villeClient);
         tvNbArticles.setText(nbArticles + " article(s)");
         tvMontant.setText(String.format("%.2f DT", montant));
-        tvModePay.setText(modePay != null ? modePay : "—");
+        tvModePay.setText(modePay != null ? modePay : "â€”");
         tvEtatActuel.setText(etatLiv);
 
         if (remarque != null) editRemarque.setText(remarque);
 
-        // Pré-sélectionner l'état dans le spinner
+        // PrÃ©-sÃ©lectionner l'Ã©tat dans le spinner
         ArrayAdapter<String> adapter = (ArrayAdapter<String>) spinnerEtat.getAdapter();
         if (adapter != null && etatLiv != null) {
             int pos = adapter.getPosition(etatLiv);
@@ -157,26 +157,26 @@ public class LivraisonDetailFragment extends Fragment {
         String remarque   = editRemarque.getText() != null
                 ? editRemarque.getText().toString().trim() : "";
 
-        // Validation : si non livré, remarque obligatoire
-        if (!nouvelEtat.equals("livré") && !nouvelEtat.equals("en attente")
+        // Validation : si non livrÃ©, remarque obligatoire
+        if (!nouvelEtat.equals("livre") && !nouvelEtat.equals("en attente")
                 && !nouvelEtat.equals("en cours") && remarque.isEmpty()) {
             Toast.makeText(requireContext(),
-                    "Veuillez saisir une remarque pour cet état", Toast.LENGTH_SHORT).show();
+                    "Veuillez saisir une remarque", Toast.LENGTH_SHORT).show();
             return;
         }
 
         boolean ok = dbHelper.updateLivraisonEtatEtRemarque(noCde, nouvelEtat, remarque);
         if (ok) {
-            Toast.makeText(requireContext(), "Livraison mise à jour ✓", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "Livraison mise Ã  jour âœ“", Toast.LENGTH_SHORT).show();
             tvEtatActuel.setText(nouvelEtat);
         } else {
-            Toast.makeText(requireContext(), "Erreur lors de la mise à jour", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "Erreur lors de la mise Ã  jour", Toast.LENGTH_SHORT).show();
         }
     }
 
     private void appelerClient() {
         if (telClient == null || telClient.isEmpty()) {
-            Toast.makeText(requireContext(), "Numéro indisponible", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "Numero indisponible", Toast.LENGTH_SHORT).show();
             return;
         }
         Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + telClient));

@@ -14,7 +14,7 @@ import java.util.Locale;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "BDG_LivraisonCom_25.db";
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 8;
 
     private static final String CREATE_ARTICLES =
             "CREATE TABLE " + DbContract.Articles.TABLE_NAME + " (" +
@@ -90,6 +90,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     DbContract.LivraisonCom.COLUMN_ETATLIV  + " VARCHAR(20) CHECK(" +
                     DbContract.LivraisonCom.COLUMN_ETATLIV  + " IN ('en attente','en cours','livré','annulé','problème')), " +
                     DbContract.LivraisonCom.COLUMN_REMARQUE + " TEXT, " +
+                    "montantTotal REAL DEFAULT 0, " +
                     "FOREIGN KEY (" + DbContract.LivraisonCom.COLUMN_NOCDE   + ") REFERENCES " +
                     DbContract.Commandes.TABLE_NAME  + "(" + DbContract.Commandes.COLUMN_NOCDE   + "), " +
                     "FOREIGN KEY (" + DbContract.LivraisonCom.COLUMN_LIVREUR + ") REFERENCES " +
@@ -138,6 +139,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("CREATE TABLE IF NOT EXISTS FinJournee (id INTEGER PRIMARY KEY AUTOINCREMENT, livreur_id INTEGER NOT NULL, date_fin TEXT NOT NULL, horodatage TEXT NOT NULL)");
         db.execSQL("DROP TABLE IF EXISTS MessagesControleur");
         db.execSQL("DROP TABLE IF EXISTS MessagesUrgence");
         db.execSQL("DROP TABLE IF EXISTS " + DbContract.LivraisonCom.TABLE_NAME);
@@ -185,13 +187,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO LigCdes (nocde,refart,qtecde) VALUES (1,'ART002',1)");
         db.execSQL("INSERT INTO LigCdes (nocde,refart,qtecde) VALUES (2,'ART001',1)");
 
-        db.execSQL("INSERT INTO LivraisonCom (nocde,dateliv,livreur,modepay,etatliv,remarque) " +
-                "VALUES (1,'" + today + "',2,'carte','en attente','')");
-        db.execSQL("INSERT INTO LivraisonCom (nocde,dateliv,livreur,modepay,etatliv,remarque) " +
-                "VALUES (2,'" + today + "',2,'espèces','en cours','')");
+        db.execSQL("INSERT INTO LivraisonCom (nocde,dateliv,livreur,modepay,etatliv,remarque,montantTotal) " +
+                "VALUES (1,'" + today + "',2,'carte','en attente','',649.97)");
+        db.execSQL("INSERT INTO LivraisonCom (nocde,dateliv,livreur,modepay,etatliv,remarque,montantTotal) " +
+                "VALUES (2,'" + today + "',2,'espèces','en cours','',299.99)");
     }
-
-    // ==================== Authentification ====================
 
     public boolean checkUserLogin(String login, String password) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -207,11 +207,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 DbContract.Personnel.COLUMN_LOGIN + "=?", new String[]{login}, null, null, null);
     }
 
-    // ==================== Livraisons ====================
-
     public void insertOrUpdateLivraison(int nocde, String dateliv, int livreur,
-                                        String modepay, String etatliv, String remarque) {
-        // Corriger les accents pour compatibilité SQLite local
+                                        String modepay, String etatliv, String remarque,
+                                        double montantTotal) {
         if ("especes".equals(modepay))   modepay = "espèces";
         if ("cheque".equals(modepay))    modepay = "chèque";
         if ("annule".equals(etatliv))    etatliv = "annulé";
@@ -226,11 +224,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         v.put(DbContract.LivraisonCom.COLUMN_MODEPAY,  modepay);
         v.put(DbContract.LivraisonCom.COLUMN_ETATLIV,  etatliv);
         v.put(DbContract.LivraisonCom.COLUMN_REMARQUE, remarque);
+        v.put("montantTotal", montantTotal);
         db.insertWithOnConflict(DbContract.LivraisonCom.TABLE_NAME, null, v,
                 SQLiteDatabase.CONFLICT_REPLACE);
     }
 
-    // LEFT JOIN : affiche les livraisons même sans commande/client local
     public Cursor getTodayDeliveries() {
         SQLiteDatabase db = this.getReadableDatabase();
         String q = "SELECT lc.*, " +
@@ -240,7 +238,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "COALESCE(c.prenomclt, '') as prenomclt, " +
                 "COALESCE(c.telclt, '') as telclt, " +
                 "COALESCE(c.villeclt, '') as villeclt, " +
-                "0.0 as montant " +
+                "lc.montantTotal as montant " +
                 "FROM LivraisonCom lc " +
                 "LEFT JOIN Personnel p ON lc.livreur=p.idpers " +
                 "LEFT JOIN Commandes cmd ON lc.nocde=cmd.nocde " +
@@ -256,7 +254,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "COALESCE(p.prenompers, '') as prenompers, " +
                 "COALESCE(c.nomclt, '') as nomclt, " +
                 "COALESCE(c.prenomclt, '') as prenomclt, " +
-                "0.0 as montant " +
+                "lc.montantTotal as montant " +
                 "FROM LivraisonCom lc " +
                 "LEFT JOIN Personnel p ON lc.livreur=p.idpers " +
                 "LEFT JOIN Commandes cmd ON lc.nocde=cmd.nocde " +
@@ -272,7 +270,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "COALESCE(p.prenompers, '') as prenompers, " +
                 "COALESCE(c.nomclt, '') as nomclt, " +
                 "COALESCE(c.prenomclt, '') as prenomclt, " +
-                "0.0 as montant " +
+                "lc.montantTotal as montant " +
                 "FROM LivraisonCom lc " +
                 "LEFT JOIN Personnel p ON lc.livreur=p.idpers " +
                 "LEFT JOIN Commandes cmd ON lc.nocde=cmd.nocde " +
@@ -298,7 +296,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "COALESCE(p.prenompers, '') as prenompers, " +
                 "COALESCE(c.nomclt, '') as nomclt, " +
                 "COALESCE(c.prenomclt, '') as prenomclt, " +
-                "0.0 as montant " +
+                "lc.montantTotal as montant " +
                 "FROM LivraisonCom lc " +
                 "LEFT JOIN Personnel p ON lc.livreur=p.idpers " +
                 "LEFT JOIN Commandes cmd ON lc.nocde=cmd.nocde " +
@@ -306,8 +304,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 (where.length() > 0 ? " WHERE " + where : "");
         return db.rawQuery(q, args.toArray(new String[0]));
     }
-
-    // ==================== Statistiques ====================
 
     public Cursor getCountByLivreurAndEtat() {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -327,8 +323,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         "GROUP BY c.noclt, lc.etatliv", null);
     }
 
-    // ==================== Spinners ====================
-
     public Cursor getAllLivreurs() {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.query(DbContract.Personnel.TABLE_NAME,
@@ -343,8 +337,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 null, null, null, null, null);
     }
 
-    // ==================== Méthodes livreur ====================
-
     public Cursor getTodayDeliveriesForLivreur(int livreurId, String today) {
         SQLiteDatabase db = this.getReadableDatabase();
         String q = "SELECT lc.nocde, lc.dateliv, lc.etatliv, lc.modepay, lc.remarque, " +
@@ -353,7 +345,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "COALESCE(c.telclt, '') as telclt, " +
                 "COALESCE(c.villeclt, '') as villeclt, " +
                 "COALESCE(c.adrclt, '') as adrclt, " +
-                "0 AS nb_articles, 0.0 AS montant " +
+                "0 AS nb_articles, lc.montantTotal AS montant " +
                 "FROM LivraisonCom lc " +
                 "LEFT JOIN Commandes cmd ON lc.nocde=cmd.nocde " +
                 "LEFT JOIN Clients c ON cmd.noclt=c.noclt " +
@@ -370,7 +362,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "COALESCE(c.adrclt, '') as adrclt, " +
                 "COALESCE(c.villeclt, '') as villeclt, " +
                 "COALESCE(c.code_postal, '') as code_postal, " +
-                "0 AS nb_articles, 0.0 AS montant " +
+                "0 AS nb_articles, lc.montantTotal AS montant " +
                 "FROM LivraisonCom lc " +
                 "LEFT JOIN Commandes cmd ON lc.nocde=cmd.nocde " +
                 "LEFT JOIN Clients c ON cmd.noclt=c.noclt " +
@@ -387,6 +379,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public boolean updateLivraisonEtatEtRemarque(int noCde, String nouvelEtat, String remarque) {
+        if ("annule".equals(nouvelEtat))   nouvelEtat = "annul\u00e9";
+        if ("livre".equals(nouvelEtat))    nouvelEtat = "livr\u00e9";
+        if ("probleme".equals(nouvelEtat)) nouvelEtat = "probl\u00e8me";
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues v = new ContentValues();
         v.put(DbContract.LivraisonCom.COLUMN_ETATLIV,  nouvelEtat);
@@ -396,8 +391,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 new String[]{String.valueOf(noCde)}) > 0;
     }
 
-    // ==================== Messages urgence ====================
-
+    public boolean insertFinJournee(int livreurId, String date) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues v = new ContentValues();
+        v.put("livreur_id", livreurId);
+        v.put("date_fin", date);
+        v.put("horodatage", new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.getDefault()).format(new java.util.Date()));
+        return db.insert("FinJournee", null, v) != -1;
+    }
+    public boolean finJourneeDejaEnvoyee(int livreurId, String date) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("CREATE TABLE IF NOT EXISTS FinJournee (id INTEGER PRIMARY KEY AUTOINCREMENT, livreur_id INTEGER NOT NULL, date_fin TEXT NOT NULL, horodatage TEXT NOT NULL)");
+        Cursor c = db.rawQuery("SELECT COUNT(*) FROM FinJournee WHERE livreur_id=? AND date_fin=?",
+                new String[]{String.valueOf(livreurId), date});
+        boolean existe = c.moveToFirst() && c.getInt(0) > 0;
+        c.close();
+        return existe;
+    }
     public boolean insertMessageUrgence(int livreurId, int noCde, String telClient, String message) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues v = new ContentValues();
@@ -433,8 +443,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         int count = 0; if (c.moveToFirst()) count = c.getInt(0); c.close(); return count;
     }
 
-    // ==================== Messages contrôleur ====================
-
     public boolean insertMessageControleur(int controleurId, int livreurId, String message) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues v = new ContentValues();
@@ -468,8 +476,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor c = db.rawQuery("SELECT COUNT(*) FROM MessagesControleur WHERE livreur_id=? AND lu=0", new String[]{String.valueOf(livreurId)});
         int count = 0; if (c.moveToFirst()) count = c.getInt(0); c.close(); return count;
     }
-
-    // ==================== Personnel ====================
 
     public Cursor getPersonnelById(int idpers) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -515,4 +521,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) id = cursor.getInt(0);
         cursor.close(); db.close(); return id;
     }
+
+    public boolean confirmerPaiement(int livraisonId, String modePaiement, double montant) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues v = new ContentValues();
+        v.put("statut_paiement", "paye");
+        v.put("mode_paiement", modePaiement);
+        v.put("montant", montant);
+        v.put("date_paiement", new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss",
+            java.util.Locale.getDefault()).format(new java.util.Date()));
+        return db.update("Commandes", v, "id=?",
+            new String[]{String.valueOf(livraisonId)}) > 0;
+    }
+    public String getModePaiement(int livraisonId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT mode_paiement FROM Commandes WHERE id=?",
+            new String[]{String.valueOf(livraisonId)});
+        String mode = "especes";
+        if (c.moveToFirst()) mode = c.getString(0);
+        c.close();
+        return mode;
+    }
+    public boolean paiementDejaConfirme(int livraisonId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT statut_paiement FROM Commandes WHERE id=?",
+            new String[]{String.valueOf(livraisonId)});
+        boolean paye = false;
+        if (c.moveToFirst()) paye = "paye".equals(c.getString(0));
+        c.close();
+        return paye;
+    }
+
 }
