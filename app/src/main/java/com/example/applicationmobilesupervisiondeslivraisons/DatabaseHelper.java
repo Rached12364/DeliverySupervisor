@@ -14,7 +14,7 @@ import java.util.Locale;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "BDG_LivraisonCom_25.db";
-    private static final int DATABASE_VERSION = 8;
+    private static final int DATABASE_VERSION = 52;
 
     private static final String CREATE_ARTICLES =
             "CREATE TABLE " + DbContract.Articles.TABLE_NAME + " (" +
@@ -63,10 +63,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     DbContract.Commandes.COLUMN_NOCDE   + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     DbContract.Commandes.COLUMN_NOCLT   + " INTEGER NOT NULL, " +
                     DbContract.Commandes.COLUMN_DATECDE + " DATE NOT NULL, " +
-                    DbContract.Commandes.COLUMN_ETATCDE + " VARCHAR(20) CHECK(" +
-                    DbContract.Commandes.COLUMN_ETATCDE + " IN ('en cours','validée','annulée','livrée')), " +
-                    "FOREIGN KEY (" + DbContract.Commandes.COLUMN_NOCLT + ") REFERENCES " +
+                    DbContract.Commandes.COLUMN_ETATCDE + " TEXT, " + "FOREIGN KEY (" + DbContract.Commandes.COLUMN_NOCLT + ") REFERENCES " +
                     DbContract.Clients.TABLE_NAME + "(" + DbContract.Clients.COLUMN_NOCLT + "))";
+
+        private static final String CREATE_FINJOURNEE =
+            "CREATE TABLE FinJournee (" +
+                    "_id        INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "livreur_id INTEGER NOT NULL, " +
+                    "date_fin   VARCHAR(20) NOT NULL, " +
+                    "horodatage DATETIME DEFAULT (datetime('now','localtime')), " +
+                    "FOREIGN KEY (livreur_id) REFERENCES Personnel(idpers))";
 
     private static final String CREATE_LIGCDES =
             "CREATE TABLE " + DbContract.LigCdes.TABLE_NAME + " (" +
@@ -85,10 +91,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     DbContract.LivraisonCom.COLUMN_NOCDE    + " INTEGER PRIMARY KEY, " +
                     DbContract.LivraisonCom.COLUMN_DATELIV  + " DATE NOT NULL, " +
                     DbContract.LivraisonCom.COLUMN_LIVREUR  + " INTEGER NOT NULL, " +
-                    DbContract.LivraisonCom.COLUMN_MODEPAY  + " VARCHAR(20) CHECK(" +
-                    DbContract.LivraisonCom.COLUMN_MODEPAY  + " IN ('espèces','carte','chèque','virement')), " +
-                    DbContract.LivraisonCom.COLUMN_ETATLIV  + " VARCHAR(20) CHECK(" +
-                    DbContract.LivraisonCom.COLUMN_ETATLIV  + " IN ('en attente','en cours','livré','annulé','problème')), " +
+                    DbContract.LivraisonCom.COLUMN_MODEPAY + " TEXT, " +
+                    DbContract.LivraisonCom.COLUMN_ETATLIV + " TEXT, " +
                     DbContract.LivraisonCom.COLUMN_REMARQUE + " TEXT, " +
                     "montantTotal REAL DEFAULT 0, " +
                     "FOREIGN KEY (" + DbContract.LivraisonCom.COLUMN_NOCDE   + ") REFERENCES " +
@@ -131,6 +135,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_CLIENTS);
         db.execSQL(CREATE_COMMANDES);
         db.execSQL(CREATE_LIGCDES);
+        db.execSQL(CREATE_FINJOURNEE);
         db.execSQL(CREATE_LIVRAISONCOM);
         db.execSQL(CREATE_MESSAGES_URGENCE);
         db.execSQL(CREATE_MESSAGES_CONTROLEUR);
@@ -139,7 +144,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS FinJournee (id INTEGER PRIMARY KEY AUTOINCREMENT, livreur_id INTEGER NOT NULL, date_fin TEXT NOT NULL, horodatage TEXT NOT NULL)");
+        db.execSQL("DROP TABLE IF EXISTS " + DbContract.Articles.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS MessagesControleur");
         db.execSQL("DROP TABLE IF EXISTS MessagesUrgence");
         db.execSQL("DROP TABLE IF EXISTS " + DbContract.LivraisonCom.TABLE_NAME);
@@ -149,6 +154,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + DbContract.Articles.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + DbContract.Personnel.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + DbContract.Postes.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS FinJournee");
         onCreate(db);
     }
 
@@ -158,39 +164,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     private void insertSampleData(SQLiteDatabase db) {
-        db.execSQL("INSERT INTO Postes (libelle,indice) VALUES ('Administrateur',100)");
-        db.execSQL("INSERT INTO Postes (libelle,indice) VALUES ('Contrôleur',90)");
+        db.execSQL("INSERT INTO Postes (libelle,indice) VALUES ('Controleur',90)");
         db.execSQL("INSERT INTO Postes (libelle,indice) VALUES ('Livreur',80)");
 
-        db.execSQL("INSERT INTO Personnel (nompers,prenompers,adrpers,villepers,telpers,d_embauche,Login,motP,codeposte) " +
-                "VALUES ('Rached','Ahmed','123 Rue de Tunis','Tunis','12345678','2024-01-01','ctrl.rached','ctrl123',2)");
-        db.execSQL("INSERT INTO Personnel (nompers,prenompers,adrpers,villepers,telpers,d_embauche,Login,motP,codeposte) " +
-                "VALUES ('Ben Ali','Med Amine','45 Avenue Habib','Sfax','98765432','2024-02-01','liv.medamine','liv123',3)");
-        db.execSQL("INSERT INTO Personnel (nompers,prenompers,adrpers,villepers,telpers,d_embauche,Login,motP,codeposte) " +
-                "VALUES ('Trabelsi','Karim','12 Rue de Sfax','Sfax','97654321','2024-03-01','liv.karim','liv456',3)");
+        db.execSQL("INSERT INTO Personnel (nompers,prenompers,adrpers,villepers,telpers,d_embauche,Login,motP,codeposte) VALUES ('Rached','Ahmed','123 Rue Tunis','Tunis','12345678','2024-01-01','ctrl.rached','ctrl123',2)");
+        db.execSQL("INSERT INTO Personnel (nompers,prenompers,adrpers,villepers,telpers,d_embauche,Login,motP,codeposte) VALUES ('Trabelsi','Karim','12 Rue Sfax','Sfax','97654321','2024-03-01','liv.karim','liv456',3)");
+        db.execSQL("INSERT INTO Personnel (nompers,prenompers,adrpers,villepers,telpers,d_embauche,Login,motP,codeposte) VALUES ('Ben Amine','Mohamed','5 Rue Carthage','Tunis','55123456','2024-02-01','liv.medamine','med123',3)");
+        
 
         db.execSQL("INSERT INTO Clients (nomclt,prenomclt,adrclt,villeclt,code_postal,telclt,adrmail) " +
-                "VALUES ('Ben Salah','Mohamed','10 Rue de la Paix','Tunis','1000','71234567','mohamed@email.com')");
-        db.execSQL("INSERT INTO Clients (nomclt,prenomclt,adrclt,villeclt,code_postal,telclt,adrmail) " +
-                "VALUES ('Trabelsi','Sara','5 Rue de la Liberté','Sousse','4000','73123456','sara@email.com')");
-
-        db.execSQL("INSERT INTO Articles (refart,designation,prixA,prixV,codetva,categorie,qtestk) " +
-                "VALUES ('ART001','Smartphone XYZ',200.00,299.99,19,'Électronique',50)");
-        db.execSQL("INSERT INTO Articles (refart,designation,prixA,prixV,codetva,categorie,qtestk) " +
+                "VALUES ('Ben Salah','Mohamed','10 Rue de la Paix','Tunis','1000','71234567','mohamed@email.com')");db.execSQL("INSERT INTO Articles (refart,designation,prixA,prixV,codetva,categorie,qtestk) " +
                 "VALUES ('ART002','Casque audio',30.00,49.99,19,'Accessoires',100)");
 
         String today = getTodayDate();
-        db.execSQL("INSERT INTO Commandes (noclt,datecde,etatcde) VALUES (1,'" + today + "','validée')");
+        db.execSQL("INSERT INTO Commandes (noclt,datecde,etatcde) VALUES (1,'" + today + "','en attente')");
         db.execSQL("INSERT INTO Commandes (noclt,datecde,etatcde) VALUES (2,'" + today + "','en cours')");
 
         db.execSQL("INSERT INTO LigCdes (nocde,refart,qtecde) VALUES (1,'ART001',2)");
         db.execSQL("INSERT INTO LigCdes (nocde,refart,qtecde) VALUES (1,'ART002',1)");
         db.execSQL("INSERT INTO LigCdes (nocde,refart,qtecde) VALUES (2,'ART001',1)");
 
-        db.execSQL("INSERT INTO LivraisonCom (nocde,dateliv,livreur,modepay,etatliv,remarque,montantTotal) " +
-                "VALUES (1,'" + today + "',2,'carte','en attente','',649.97)");
-        db.execSQL("INSERT INTO LivraisonCom (nocde,dateliv,livreur,modepay,etatliv,remarque,montantTotal) " +
-                "VALUES (2,'" + today + "',2,'espèces','en cours','',299.99)");
+        db.execSQL("INSERT INTO LivraisonCom (nocde,dateliv,livreur,modepay,etatliv,remarque,montantTotal) VALUES (1,'" + today + "',2,'carte','en attente','',649.97)");
+        db.execSQL("INSERT INTO LivraisonCom (nocde,dateliv,livreur,modepay,etatliv,remarque,montantTotal) VALUES (2,'" + today + "',2,'especes','livre','',299.99)");
     }
 
     public boolean checkUserLogin(String login, String password) {
@@ -210,11 +205,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void insertOrUpdateLivraison(int nocde, String dateliv, int livreur,
                                         String modepay, String etatliv, String remarque,
                                         double montantTotal) {
-        if ("especes".equals(modepay))   modepay = "espèces";
-        if ("cheque".equals(modepay))    modepay = "chèque";
-        if ("annule".equals(etatliv))    etatliv = "annulé";
-        if ("livre".equals(etatliv))     etatliv = "livré";
-        if ("probleme".equals(etatliv))  etatliv = "problème";
+        
+        
+        
+        
+        
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues v = new ContentValues();
@@ -238,8 +233,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "COALESCE(c.prenomclt, '') as prenomclt, " +
                 "COALESCE(c.telclt, '') as telclt, " +
                 "COALESCE(c.villeclt, '') as villeclt, " +
-                "lc.montantTotal as montant " +
-                "FROM LivraisonCom lc " +
+                "COALESCE(c.adrclt, '') as adrclt, " + "(SELECT COALESCE(SUM(lg.qtecde),0) FROM LigCdes lg WHERE lg.nocde=lc.nocde) as nb_articles, " + "lc.montantTotal as montant " + "FROM LivraisonCom lc " +
                 "LEFT JOIN Personnel p ON lc.livreur=p.idpers " +
                 "LEFT JOIN Commandes cmd ON lc.nocde=cmd.nocde " +
                 "LEFT JOIN Clients c ON cmd.noclt=c.noclt " +
@@ -254,8 +248,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "COALESCE(p.prenompers, '') as prenompers, " +
                 "COALESCE(c.nomclt, '') as nomclt, " +
                 "COALESCE(c.prenomclt, '') as prenomclt, " +
-                "lc.montantTotal as montant " +
-                "FROM LivraisonCom lc " +
+                "COALESCE(c.adrclt, '') as adrclt, " + "(SELECT COALESCE(SUM(lg.qtecde),0) FROM LigCdes lg WHERE lg.nocde=lc.nocde) as nb_articles, " + "lc.montantTotal as montant " + "FROM LivraisonCom lc " +
                 "LEFT JOIN Personnel p ON lc.livreur=p.idpers " +
                 "LEFT JOIN Commandes cmd ON lc.nocde=cmd.nocde " +
                 "LEFT JOIN Clients c ON cmd.noclt=c.noclt " +
@@ -270,8 +263,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "COALESCE(p.prenompers, '') as prenompers, " +
                 "COALESCE(c.nomclt, '') as nomclt, " +
                 "COALESCE(c.prenomclt, '') as prenomclt, " +
-                "lc.montantTotal as montant " +
-                "FROM LivraisonCom lc " +
+                "COALESCE(c.adrclt, '') as adrclt, " + "(SELECT COALESCE(SUM(lg.qtecde),0) FROM LigCdes lg WHERE lg.nocde=lc.nocde) as nb_articles, " + "lc.montantTotal as montant " + "FROM LivraisonCom lc " +
                 "LEFT JOIN Personnel p ON lc.livreur=p.idpers " +
                 "LEFT JOIN Commandes cmd ON lc.nocde=cmd.nocde " +
                 "LEFT JOIN Clients c ON cmd.noclt=c.noclt " +
@@ -296,8 +288,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "COALESCE(p.prenompers, '') as prenompers, " +
                 "COALESCE(c.nomclt, '') as nomclt, " +
                 "COALESCE(c.prenomclt, '') as prenomclt, " +
-                "lc.montantTotal as montant " +
-                "FROM LivraisonCom lc " +
+                "COALESCE(c.adrclt, '') as adrclt, " + "(SELECT COALESCE(SUM(lg.qtecde),0) FROM LigCdes lg WHERE lg.nocde=lc.nocde) as nb_articles, " + "lc.montantTotal as montant " + "FROM LivraisonCom lc " +
                 "LEFT JOIN Personnel p ON lc.livreur=p.idpers " +
                 "LEFT JOIN Commandes cmd ON lc.nocde=cmd.nocde " +
                 "LEFT JOIN Clients c ON cmd.noclt=c.noclt" +
@@ -345,8 +336,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "COALESCE(c.telclt, '') as telclt, " +
                 "COALESCE(c.villeclt, '') as villeclt, " +
                 "COALESCE(c.adrclt, '') as adrclt, " +
-                "0 AS nb_articles, lc.montantTotal AS montant " +
-                "FROM LivraisonCom lc " +
+                "COALESCE(c.adrclt, '') as adrclt, " + "(SELECT COALESCE(SUM(lg.qtecde),0) FROM LigCdes lg WHERE lg.nocde=lc.nocde) as nb_articles, " + "lc.montantTotal as montant " + "FROM LivraisonCom lc " +
                 "LEFT JOIN Commandes cmd ON lc.nocde=cmd.nocde " +
                 "LEFT JOIN Clients c ON cmd.noclt=c.noclt " +
                 "WHERE lc.livreur=? AND lc.dateliv=? ORDER BY lc.nocde ASC";
@@ -359,11 +349,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "COALESCE(c.nomclt, '') as nomclt, " +
                 "COALESCE(c.prenomclt, '') as prenomclt, " +
                 "COALESCE(c.telclt, '') as telclt, " +
-                "COALESCE(c.adrclt, '') as adrclt, " +
                 "COALESCE(c.villeclt, '') as villeclt, " +
                 "COALESCE(c.code_postal, '') as code_postal, " +
-                "0 AS nb_articles, lc.montantTotal AS montant " +
-                "FROM LivraisonCom lc " +
+                "COALESCE(c.adrclt, '') as adrclt, " + "(SELECT COALESCE(SUM(lg.qtecde),0) FROM LigCdes lg WHERE lg.nocde=lc.nocde) as nb_articles, " + "lc.montantTotal as montant " + "FROM LivraisonCom lc " +
                 "LEFT JOIN Commandes cmd ON lc.nocde=cmd.nocde " +
                 "LEFT JOIN Clients c ON cmd.noclt=c.noclt " +
                 "WHERE lc.nocde=?";
@@ -378,6 +366,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 new String[]{String.valueOf(noCde)});
     }
 
+    public boolean updateLivraisonModepay(int nocde, String modepay) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues v = new ContentValues();
+        v.put(DbContract.LivraisonCom.COLUMN_MODEPAY, modepay);
+        return db.update(DbContract.LivraisonCom.TABLE_NAME, v,
+                DbContract.LivraisonCom.COLUMN_NOCDE + "=?",
+                new String[]{String.valueOf(nocde)}) > 0;
+    }
     public boolean updateLivraisonEtatEtRemarque(int noCde, String nouvelEtat, String remarque) {
         if ("annule".equals(nouvelEtat))   nouvelEtat = "annul\u00e9";
         if ("livre".equals(nouvelEtat))    nouvelEtat = "livr\u00e9";
@@ -401,7 +397,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
     public boolean finJourneeDejaEnvoyee(int livreurId, String date) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("CREATE TABLE IF NOT EXISTS FinJournee (id INTEGER PRIMARY KEY AUTOINCREMENT, livreur_id INTEGER NOT NULL, date_fin TEXT NOT NULL, horodatage TEXT NOT NULL)");
         Cursor c = db.rawQuery("SELECT COUNT(*) FROM FinJournee WHERE livreur_id=? AND date_fin=?",
                 new String[]{String.valueOf(livreurId), date});
         boolean existe = c.moveToFirst() && c.getInt(0) > 0;
@@ -418,12 +413,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public Cursor getAllMessagesUrgence() {
         SQLiteDatabase db = this.getReadableDatabase();
-        return db.rawQuery("SELECT mu.*, p.nompers, p.prenompers FROM MessagesUrgence mu LEFT JOIN Personnel p ON mu.livreur_id=p.idpers ORDER BY mu.horodatage DESC", null);
+        return db.rawQuery("SELECT mu.*, p.nompers, p.prenompers FROM MessagesUrgence mu LEFT JOIN Personnel p ON mu.livreur_id=p.idpers ORDER BY mu._id DESC", null);
     }
 
     public Cursor getMessagesUrgenceNonLus() {
         SQLiteDatabase db = this.getReadableDatabase();
-        return db.rawQuery("SELECT mu.*, p.nompers, p.prenompers FROM MessagesUrgence mu LEFT JOIN Personnel p ON mu.livreur_id=p.idpers WHERE mu.lu=0 ORDER BY mu.horodatage DESC", null);
+        return db.rawQuery("SELECT mu.*, p.nompers, p.prenompers FROM MessagesUrgence mu LEFT JOIN Personnel p ON mu.livreur_id=p.idpers ORDER BY mu._id DESC", null);
     }
 
     public Cursor getMessagesUrgenceLivreur(int livreurId) {
@@ -446,22 +441,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public boolean insertMessageControleur(int controleurId, int livreurId, String message) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues v = new ContentValues();
-        v.put("controleur_id", controleurId); v.put("livreur_id", livreurId); v.put("message", message);
+        v.put("controleur_id", controleurId); v.put("livreur_id", livreurId); v.put("message", message); v.put("horodatage", new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.getDefault()).format(new java.util.Date())); v.put("lu", 0);
         return db.insert("MessagesControleur", null, v) != -1;
     }
 
     public Cursor getMessagesControleur() {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.rawQuery(
-                "SELECT mc.*, pc.nompers AS nom_controleur, pc.prenompers AS prenom_controleur, pl.nompers AS nom_livreur, pl.prenompers AS prenom_livreur " +
-                        "FROM MessagesControleur mc LEFT JOIN Personnel pc ON mc.controleur_id=pc.idpers LEFT JOIN Personnel pl ON mc.livreur_id=pl.idpers ORDER BY mc.horodatage DESC", null);
+                "SELECT mc.*, p.nompers as nom_livreur, p.prenompers as prenom_livreur FROM MessagesControleur mc LEFT JOIN Personnel p ON mc.livreur_id=p.idpers ORDER BY mc._id DESC", null);
     }
+
 
     public Cursor getMessagesForLivreur(int livreurId) {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.rawQuery(
-                "SELECT mc.*, pc.nompers AS nom_controleur, pc.prenompers AS prenom_controleur " +
-                        "FROM MessagesControleur mc LEFT JOIN Personnel pc ON mc.controleur_id=pc.idpers WHERE mc.livreur_id=? ORDER BY mc.horodatage DESC",
+                "SELECT mc.*, pc.nompers AS nom_controleur, pc.prenompers AS prenom_controleur FROM MessagesControleur mc LEFT JOIN Personnel pc ON mc.controleur_id=pc.idpers WHERE mc.livreur_id=?",
                 new String[]{String.valueOf(livreurId)});
     }
 
@@ -501,12 +495,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public String authenticateAndGetRole(String login, String password) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(
-                "SELECT p.idpers, p.nompers, p.prenompers, po.libelle FROM Personnel p INNER JOIN Postes po ON p.codeposte = po.codeposte WHERE p.Login = ? AND p.motP = ?",
-                new String[]{login, password});
+                "SELECT p.*, po.libelle as posteLibelle FROM Personnel p JOIN Postes po ON p.codeposte=po.codeposte WHERE p.Login=? AND p.motP=?", new String[]{login, password});
         String role = null;
         if (cursor.moveToFirst()) {
             String posteLibelle = cursor.getString(3);
-            if (posteLibelle.equalsIgnoreCase("Contrôleur")) role = "controleur";
+            if (posteLibelle.equalsIgnoreCase("Controleur")) role = "controleur";
             else if (posteLibelle.equalsIgnoreCase("Livreur")) role = "livreur";
         }
         cursor.close(); db.close(); return role;

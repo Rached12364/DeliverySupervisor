@@ -35,17 +35,21 @@ public class MesLivraisonsFragment extends Fragment {
         if (btnFin != null) {
             btnFin.setOnClickListener(v -> {
                 new AlertDialog.Builder(requireContext())
-                    .setTitle("Fin de journÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©e")
-                    .setMessage("Confirmer la fin de votre journÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©e de travail ?")
+                    .setTitle("Fin de journee")
+                    .setMessage("Confirmer la fin de votre journee de travail ?")
                     .setPositiveButton("Oui", (d, w) -> {
                         if (dbHelper.finJourneeDejaEnvoyee(livreurId, today)) {
                             Toast.makeText(requireContext(),
-                                "Fin de journÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©e dÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©jÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â  enregistrÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©e aujourd'hui",
+                                "Fin de journee deja enregistree aujourd hui",
                                 Toast.LENGTH_LONG).show();
                         } else {
                             dbHelper.insertFinJournee(livreurId, today);
+                            // Envoyer rapport fin de journee
+                            String rapport = "FIN DE JOURNEE\nLivreur ID : " + livreurId + "\nDate : " + today + "\nJournee terminee.";
+                            try { android.database.Cursor ctrl = dbHelper.getReadableDatabase().rawQuery("SELECT idpers FROM Personnel WHERE codeposte = 2", null);
+                            if (ctrl != null) { while (ctrl.moveToNext()) { dbHelper.insertMessageControleur(ctrl.getInt(0), livreurId, rapport); } ctrl.close(); } } catch (Exception e) { android.util.Log.e("FinJournee", "Erreur: " + e.getMessage()); }
                             Toast.makeText(requireContext(),
-                                "Fin de journÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©e enregistrÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©e !", Toast.LENGTH_LONG).show();
+                                "Fin de journee enregistree !", Toast.LENGTH_LONG).show();
                         }
                     })
                     .setNegativeButton("Non", null)
@@ -69,7 +73,7 @@ public class MesLivraisonsFragment extends Fragment {
         containerLivraisons.removeAllViews();
         if (cursor == null || cursor.getCount() == 0) {
             TextView emptyView = new TextView(getContext());
-            emptyView.setText("Aucune livraison aujourd'hui");
+            emptyView.setText("Aucune livraison aujourd hui");
             emptyView.setTextSize(16);
             emptyView.setPadding(30, 60, 30, 60);
             containerLivraisons.addView(emptyView);
@@ -90,13 +94,14 @@ public class MesLivraisonsFragment extends Fragment {
             double montant   = getDoubleSafe(cursor, "montant");
             String nomComplet = (nomclt + " " + prenomclt).trim();
             if (nomComplet.isEmpty()) nomComplet = "Client #" + noCde;
-            TextView tvOrdre       = card.findViewById(R.id.tv_ordre);
-            TextView tvNocde       = card.findViewById(R.id.tv_nocde);
-            TextView tvClientName  = card.findViewById(R.id.tv_client_name);
-            TextView tvTel         = card.findViewById(R.id.tv_tel);
-            TextView tvAdresse     = card.findViewById(R.id.tv_adresse);
-            TextView tvMontant     = card.findViewById(R.id.tv_montant_total);
-            TextView tvEtat        = card.findViewById(R.id.tv_etat_livraison);
+            TextView tvOrdre      = card.findViewById(R.id.tv_ordre);
+            TextView tvNocde      = card.findViewById(R.id.tv_nocde);
+            TextView tvClientName = card.findViewById(R.id.tv_client_name);
+            TextView tvTel        = card.findViewById(R.id.tv_tel);
+            TextView tvAdresse    = card.findViewById(R.id.tv_adresse);
+            TextView tvMontant    = card.findViewById(R.id.tv_montant_total);
+            TextView tvEtat       = card.findViewById(R.id.tv_etat_livraison);
+            View barEtat          = card.findViewById(R.id.view_etat_bar);
             if (tvOrdre != null)      tvOrdre.setText(String.valueOf(index));
             if (tvNocde != null)      tvNocde.setText("CMD-" + noCde);
             if (tvClientName != null) tvClientName.setText(nomComplet);
@@ -104,6 +109,23 @@ public class MesLivraisonsFragment extends Fragment {
             if (tvAdresse != null)    tvAdresse.setText(adresse);
             if (tvMontant != null)    tvMontant.setText(String.format("Total: %.2f TND", montant));
             if (tvEtat != null)       tvEtat.setText(etat);
+            // Couleurs selon etat
+            int couleurBarre, couleurFond, couleurTexte;
+            String etatNorm = etat != null ? etat.toLowerCase().trim() : "";
+            if (etatNorm.contains("livr")) {
+                couleurBarre = 0xFF2E7D32; couleurFond = 0xFFE8F5E9; couleurTexte = 0xFF2E7D32;
+            } else if (etatNorm.contains("annul")) {
+                couleurBarre = 0xFFC62828; couleurFond = 0xFFFFEBEE; couleurTexte = 0xFFC62828;
+            } else if (etatNorm.contains("probl")) {
+                couleurBarre = 0xFFB71C1C; couleurFond = 0xFFFFEBEE; couleurTexte = 0xFFB71C1C;
+            } else if (etatNorm.contains("cours")) {
+                couleurBarre = 0xFFE65100; couleurFond = 0xFFFFF3E0; couleurTexte = 0xFFE65100;
+            } else {
+                couleurBarre = 0xFF9E9E9E; couleurFond = 0xFFF5F5F5; couleurTexte = 0xFF757575;
+            }
+            if (barEtat != null) barEtat.setBackgroundColor(couleurBarre);
+            card.setBackgroundColor(couleurFond);
+            if (tvEtat != null) tvEtat.setTextColor(couleurTexte);
             final int commandeId = noCde;
             card.setOnClickListener(v -> {
                 Bundle bundle = new Bundle();

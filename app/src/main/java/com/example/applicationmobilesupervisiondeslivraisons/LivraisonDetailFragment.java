@@ -28,7 +28,7 @@ public class LivraisonDetailFragment extends Fragment {
     // UI
     private TextView tvNoCde, tvClientName, tvTel, tvAdresse, tvVille, tvNbArticles,
             tvMontant, tvModePay, tvEtatActuel;
-    private Spinner spinnerEtat;
+    private Spinner spinnerEtat, spinnerModePay;
     private TextInputEditText editRemarque;
     private Button btnSauvegarder, btnAppel, btnMaps, btnUrgence;
     private LinearLayout containerArticles;
@@ -66,7 +66,8 @@ public class LivraisonDetailFragment extends Fragment {
         tvMontant      = view.findViewById(R.id.tv_detail_montant);
         tvModePay      = view.findViewById(R.id.tv_detail_modepay);
         tvEtatActuel   = view.findViewById(R.id.tv_etat_actuel);
-        spinnerEtat    = view.findViewById(R.id.spinner_etat);
+        spinnerEtat     = view.findViewById(R.id.spinner_etat);
+        spinnerModePay  = view.findViewById(R.id.spinner_modepay);
         editRemarque   = view.findViewById(R.id.edit_remarque);
         btnSauvegarder = view.findViewById(R.id.btn_sauvegarder);
         btnAppel       = view.findViewById(R.id.btn_appel);
@@ -74,12 +75,17 @@ public class LivraisonDetailFragment extends Fragment {
         btnUrgence     = view.findViewById(R.id.btn_urgence);
         containerArticles = view.findViewById(R.id.container_articles);
 
-        // Spinner Ã©tats
+        // Spinner ÃƒÆ’Ã‚Â©tats
         ArrayAdapter<String> adapterEtat = new ArrayAdapter<>(requireContext(),
                 android.R.layout.simple_spinner_item,
                 new String[]{"en attente", "en cours", "livre", "annule", "probleme"});
         adapterEtat.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerEtat.setAdapter(adapterEtat);
+        ArrayAdapter<String> adapterPay = new ArrayAdapter<>(requireContext(),
+                android.R.layout.simple_spinner_item,
+                new String[]{"especes", "carte", "cheque", "virement"});
+        adapterPay.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerModePay.setAdapter(adapterPay);
 
         chargerDetail();
 
@@ -115,16 +121,23 @@ public class LivraisonDetailFragment extends Fragment {
         tvVille.setText(villeClient);
         tvNbArticles.setText(nbArticles + " article(s)");
         tvMontant.setText(String.format("%.2f DT", montant));
-        tvModePay.setText(modePay != null ? modePay : "â€”");
+        tvModePay.setText(modePay != null ? modePay : "ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â");
         tvEtatActuel.setText(etatLiv);
 
         if (remarque != null) editRemarque.setText(remarque);
 
-        // PrÃ©-sÃ©lectionner l'Ã©tat dans le spinner
+        // PrÃƒÆ’Ã‚Â©-sÃƒÆ’Ã‚Â©lectionner l'ÃƒÆ’Ã‚Â©tat dans le spinner
         ArrayAdapter<String> adapter = (ArrayAdapter<String>) spinnerEtat.getAdapter();
         if (adapter != null && etatLiv != null) {
             int pos = adapter.getPosition(etatLiv);
             if (pos >= 0) spinnerEtat.setSelection(pos);
+        if (spinnerModePay != null && modePay != null) {
+            ArrayAdapter<String> adPay = (ArrayAdapter<String>) spinnerModePay.getAdapter();
+            if (adPay != null) {
+                int posPay = adPay.getPosition(modePay);
+                if (posPay >= 0) spinnerModePay.setSelection(posPay);
+            }
+        }
         }
 
         chargerArticles();
@@ -157,7 +170,7 @@ public class LivraisonDetailFragment extends Fragment {
         String remarque   = editRemarque.getText() != null
                 ? editRemarque.getText().toString().trim() : "";
 
-        // Validation : si non livrÃ©, remarque obligatoire
+        // Validation : si non livrÃƒÆ’Ã‚Â©, remarque obligatoire
         if (!nouvelEtat.equals("livre") && !nouvelEtat.equals("en attente")
                 && !nouvelEtat.equals("en cours") && remarque.isEmpty()) {
             Toast.makeText(requireContext(),
@@ -165,12 +178,15 @@ public class LivraisonDetailFragment extends Fragment {
             return;
         }
 
+        String nouveauPay = spinnerModePay.getSelectedItem().toString();
         boolean ok = dbHelper.updateLivraisonEtatEtRemarque(noCde, nouvelEtat, remarque);
+        if (ok) dbHelper.updateLivraisonModepay(noCde, nouveauPay);
         if (ok) {
-            Toast.makeText(requireContext(), "Livraison mise Ã  jour âœ“", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "Livraison mise ÃƒÆ’Ã‚Â  jour ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“", Toast.LENGTH_SHORT).show();
             tvEtatActuel.setText(nouvelEtat);
+            envoyerRapportControleur(nouvelEtat, remarque);
         } else {
-            Toast.makeText(requireContext(), "Erreur lors de la mise Ã  jour", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "Erreur lors de la mise ÃƒÆ’Ã‚Â  jour", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -197,6 +213,32 @@ public class LivraisonDetailFragment extends Fragment {
         }
     }
 
+    private void envoyerRapportControleur(String etat, String remarque) {
+        String nomLivreur = "Livreur";
+        android.database.Cursor cLiv = dbHelper.getPersonnelById(livreurId);
+        if (cLiv != null && cLiv.moveToFirst()) {
+            String prenom = cLiv.getString(cLiv.getColumnIndex(DbContract.Personnel.COLUMN_PRENOMPERS));
+            String nom    = cLiv.getString(cLiv.getColumnIndex(DbContract.Personnel.COLUMN_NOMPERS));
+            nomLivreur = (prenom != null ? prenom : "") + " " + (nom != null ? nom : "");
+            cLiv.close();
+        }
+        String rapport =
+            "RAPPORT DE LIVRAISON\n" +
+            "Livreur  : " + nomLivreur.trim() + "\n" +
+            "Commande : #" + noCde + "\n" +
+            "Client   : " + tvClientName.getText() + "\n" +
+            "Etat     : " + etat.toUpperCase() +
+            (remarque.isEmpty() ? "" : "\nRemarque : " + remarque);
+        android.database.Cursor ctrl = dbHelper.getReadableDatabase().rawQuery(
+            "SELECT idpers FROM Personnel WHERE codeposte = 2", null);
+        if (ctrl != null) {
+            while (ctrl.moveToNext()) {
+                int controleurId = ctrl.getInt(0);
+                dbHelper.insertMessageControleur(controleurId, livreurId, rapport);
+            }
+            ctrl.close();
+        }
+    }
     private void envoyerUrgence() {
         if (getActivity() instanceof DeliverymanDashboardActivity) {
             ((DeliverymanDashboardActivity) getActivity()).loadUrgence(noCde, telClient);

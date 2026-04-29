@@ -4,6 +4,7 @@ import com.example.applicationmobilesupervisiondeslivraisons.model.Client;
 import com.example.applicationmobilesupervisiondeslivraisons.model.Commande;
 import com.example.applicationmobilesupervisiondeslivraisons.model.LivraisonCom;
 import com.example.applicationmobilesupervisiondeslivraisons.model.Personnel;
+import com.example.applicationmobilesupervisiondeslivraisons.model.LigCde;
 
 import java.util.List;
 import retrofit2.Call;
@@ -38,4 +39,7 @@ public interface ApiService {
     // Commandes
     @GET("commandes")
     Call<List<Commande>> getAllCommandes();
+    // Lignes commandes
+    @GET("ligcdes")
+    Call<List<LigCde>> getAllLigCdes();
 }

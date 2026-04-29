@@ -67,8 +67,7 @@ public class UrgenceFragment extends Fragment {
         }
         if (livreurId == -1)
             livreurId = requireContext()
-                    .getSharedPreferences("user_prefs", 0)
-                    .getInt("user_id", -1);
+                    .getSharedPreferences("UserSession", 0).getInt("userId", -1);
     }
 
     @Override
@@ -158,15 +157,15 @@ public class UrgenceFragment extends Fragment {
 
     private void creerChips() {
         chipGroupRaison.removeAllViews();
-        // Couleurs : non coché = beige foncé, coché = marron bouton
+        // Couleurs : non cochÃ© = beige foncÃ©, cochÃ© = marron bouton
         ColorStateList bgColors = new ColorStateList(
             new int[][]{
                 new int[]{android.R.attr.state_checked},
                 new int[]{}
             },
             new int[]{
-                0xFFB8935A,  // coché -> couleur bouton beige foncé
-                0xFFF0E6D8   // non coché -> beige clair visible
+                0xFFB8935A,  // cochÃ© -> couleur bouton beige foncÃ©
+                0xFFF0E6D8   // non cochÃ© -> beige clair visible
             }
         );
         ColorStateList textColors = new ColorStateList(
@@ -175,8 +174,8 @@ public class UrgenceFragment extends Fragment {
                 new int[]{}
             },
             new int[]{
-                0xFFFFFFFF,  // coché -> texte blanc
-                0xFF1C1008   // non coché -> texte très foncé
+                0xFFFFFFFF,  // cochÃ© -> texte blanc
+                0xFF1C1008   // non cochÃ© -> texte trÃ¨s foncÃ©
             }
         );
 
